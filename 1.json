@@ -27,7 +27,7 @@ dns:
 proxies:
 - name: vless-reality-vision节点               
   type: vless
-  server: 6.16283684.xyz                           
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                           
   port: 20943                                
   uuid: 51abdc26-7d0b-4792-bdd6-fcccc3e34af4   
   network: tcp
@@ -41,7 +41,7 @@ proxies:
   client-fingerprint: chrome                  
 - name: vmess-ws节点                         
   type: vmess
-  server: 6.16283684.xyz                        
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                        
   port: 2095                                     
   uuid: 51abdc26-7d0b-4792-bdd6-fcccc3e34af4       
   alterId: 0
