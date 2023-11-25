@@ -102,9 +102,9 @@
     {
       "type": "vless",
       "tag": "vless-sb",
-      "server": "6.16283684.xyz",
-      "server_port": 20943,
-      "uuid": "51abdc26-7d0b-4792-bdd6-fcccc3e34af4",
+      "server": "85.208.104.3",
+      "server_port": 5240,
+      "uuid": "50c67994-088a-49de-81af-eadb99f252c8",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
@@ -115,18 +115,18 @@
         },
       "reality": {
           "enabled": true,
-          "public_key": "iduHNcS9MVauOBOOFLZfqGa4_noKBILY3mVALsXZ1Bc",
-          "short_id": "17406c9b"
+          "public_key": "a58xxiN-Ep33ZMmXsihDs5yRImadEcvNcW2Iu1dEMRg",
+          "short_id": "39a14904"
         }
       }
     },
 {
             "server": "6.16283684.xyz",
-            "server_port": 2095,
+            "server_port": 2087,
             "tag": "vmess-sb",
             "tls": {
-                "enabled": false,
-                "server_name": "www.bing.com",
+                "enabled": true,
+                "server_name": "6.16283684.xyz",
                 "insecure": false,
                 "utls": {
                     "enabled": true,
@@ -136,22 +136,22 @@
             "transport": {
                 "headers": {
                     "Host": [
-                        "www.bing.com"
+                        "6.16283684.xyz"
                     ]
                 },
-                "path": "51abdc26-7d0b-4792-bdd6-fcccc3e34af4-vm",
+                "path": "50c67994-088a-49de-81af-eadb99f252c8-vm",
                 "type": "ws"
             },
             "type": "vmess",
             "security": "auto",
-            "uuid": "51abdc26-7d0b-4792-bdd6-fcccc3e34af4"
+            "uuid": "50c67994-088a-49de-81af-eadb99f252c8"
         },
     {
         "type": "hysteria2",
         "tag": "hy2-sb",
         "server": "6.16283684.xyz",
-        "server_port": 52410,
-        "password": "51abdc26-7d0b-4792-bdd6-fcccc3e34af4",
+        "server_port": 51758,
+        "password": "50c67994-088a-49de-81af-eadb99f252c8",
         "tls": {
             "enabled": true,
             "server_name": "6.16283684.xyz",
@@ -165,9 +165,9 @@
             "type":"tuic",
             "tag": "tuic5-sb",
             "server": "6.16283684.xyz",
-            "server_port": 39595,
-            "uuid": "51abdc26-7d0b-4792-bdd6-fcccc3e34af4",
-            "password": "51abdc26-7d0b-4792-bdd6-fcccc3e34af4",
+            "server_port": 55213,
+            "uuid": "50c67994-088a-49de-81af-eadb99f252c8",
+            "password": "50c67994-088a-49de-81af-eadb99f252c8",
             "congestion_control": "bbr",
             "udp_relay_mode": "native",
             "udp_over_stream": false,
@@ -258,4 +258,3 @@
     "detour": "direct"
   }
 }
-
