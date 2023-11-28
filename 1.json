@@ -64,30 +64,30 @@ dns:
       - https://dns.alidns.com/dns-query
     "geosite:category-ads-all": rcode://success
 proxies:
-  - name: hysteria2-5886
+  - name: hysteria2-2355
     type: hysteria2
     server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca
-    port: 10086
-    password: fgTwTf9fOWNE
+    port: 10011
+    password: 6S0mzts+vpmJ
     obfs: salamander
-    obfs-password: 4j6vi79uCF+a
+    obfs-password: UbKcTU0ZAk4d
     alpn:
       - h3
     sni: asia.sega.com
     skip-cert-verify: true
     up: "200 Mbps"
-    down: "200 Mbps"
+    down: "100 Mbps"
 
 proxy-groups:
   - name: Proxy
     type: select
     proxies:
-      - hysteria2-5886
+      - hysteria2-2355
       - auto
   - name: auto
     type: url-test
     proxies:
-      - hysteria2-5886
+      - hysteria2-2355
     url: "https://cp.cloudflare.com/generate_204"
     interval: 300
 rules:
