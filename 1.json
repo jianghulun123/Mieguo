@@ -1,115 +1,98 @@
-port: 7890
+mixed-port: 10801
 allow-lan: true
+bind-address: "*"
+find-process-mode: strict
 mode: rule
+geodata-mode: true
+geox-url:
+  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb"
 log-level: info
-unified-delay: true
+ipv6: true
 global-client-fingerprint: chrome
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - 0.0.0.0:53
+  auto-detect-interface: true
+  auto-route: true
+  mtu: 9000
+profile:
+  store-selected: false
+  store-fake-ip: true
+sniffer:
+  enable: true
+  override-destination: false
+  sniff:
+    TLS:
+      ports: [443, 8443]
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
 dns:
   enable: true
-  listen: :53
+  prefer-h3: true
+  listen: 0.0.0.0:53
   ipv6: true
+  ipv6-timeout: 300
+  default-nameserver:
+    - 223.5.5.5
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  default-nameserver: 
-    - 223.5.5.5
-    - 8.8.8.8
   nameserver:
-    - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
   fallback:
-    - https://1.0.0.1/dns-query
-    - tls://dns.google
+    - https://dns.google/dns-query
+    - https://1.1.1.1/dns-query
   fallback-filter:
     geoip: true
     geoip-code: CN
+    geosite:
+      - gfw
     ipcidr:
       - 240.0.0.0/4
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'
+  nameserver-policy:
+    "geosite:cn,private":
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    "geosite:category-ads-all": rcode://success
 proxies:
-- name: vless-reality-vision节点               
-  type: vless
-  server: 6.16283684.xyz                           
-  port: 5240                                
-  uuid: 50c67994-088a-49de-81af-eadb99f252c8   
-  network: tcp
-  udp: true
-  tls: true
-  flow: xtls-rprx-vision
-  servername: www.yahoo.com                 
-  reality-opts: 
-    public-key: a58xxiN-Ep33ZMmXsihDs5yRImadEcvNcW2Iu1dEMRg    
-    short-id: 39a14904                      
-  client-fingerprint: chrome                  
-- name: vmess-ws节点                         
-  type: vmess
-  server: 6.16283684.xyz                        
-  port: 2087                                     
-  uuid: 50c67994-088a-49de-81af-eadb99f252c8       
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: true
-  network: ws
-  servername: 6.16283684.xyz                    
-  ws-opts:
-    path: "50c67994-088a-49de-81af-eadb99f252c8-vm"                             
-    headers:
-      Host: 6.16283684.xyz                     
-- name: hysteria2节点                            
-  type: hysteria2                                      
-  server: 6.16283684.xyz                               
-  port: 51758                                
-  password: 50c67994-088a-49de-81af-eadb99f252c8                              
-  alpn:
-    - h3
-  sni: 6.16283684.xyz                               
-  skip-cert-verify: false
-  fast-open: true
-- name: tuic5节点                            
-  server: 6.16283684.xyz                      
-  port: 55213                                    
-  type: tuic
-  uuid: 50c67994-088a-49de-81af-eadb99f252c8       
-  password: 50c67994-088a-49de-81af-eadb99f252c8   
-  alpn: [h3]
-  disable-sni: true
-  reduce-rtt: true
-  udp-relay-mode: native
-  congestion-controller: bbr
-  sni: 6.16283684.xyz                                
-  skip-cert-verify: false  
+  - name: hysteria2-5886
+    type: hysteria2
+    server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca
+    port: 10086
+    password: fgTwTf9fOWNE
+    obfs: salamander
+    obfs-password: 4j6vi79uCF+a
+    alpn:
+      - h3
+    sni: asia.sega.com
+    skip-cert-verify: true
+    up: "200 Mbps"
+    down: "200 Mbps"
+
 proxy-groups:
-- name: 负载均衡
-  type: load-balance
-  url: https://cp.cloudflare.com/generate_204
-  interval: 300
-  strategy: round-robin
-  proxies:
-    - vless-reality-vision节点                              
-    - vmess-ws节点
-    - hysteria2节点
-    - tuic5节点
-- name: 自动选择
-  type: url-test
-  url: https://cp.cloudflare.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-    - vless-reality-vision节点                              
-    - vmess-ws节点
-    - hysteria2节点
-    - tuic5节点
-    
-- name: 🌍选择代理节点
-  type: select
-  proxies:
-    - 负载均衡                                         
-    - 自动选择
-    - DIRECT
-    - vless-reality-vision节点                              
-    - vmess-ws节点
-    - hysteria2节点
-    - tuic5节点
+  - name: Proxy
+    type: select
+    proxies:
+      - hysteria2-5886
+      - auto
+  - name: auto
+    type: url-test
+    proxies:
+      - hysteria2-5886
+    url: "https://cp.cloudflare.com/generate_204"
+    interval: 300
 rules:
-  - GEOIP,LAN,DIRECT
-  - GEOIP,CN,DIRECT
-  - MATCH,🌍选择代理节点
+  - GEOSITE,private,DIRECT
+  - GEOSITE,category-ads-all,REJECT
+  - GEOSITE,cn,DIRECT
+  - GEOIP,cn,DIRECT
+  - MATCH,Proxy
