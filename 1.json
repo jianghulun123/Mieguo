@@ -28,57 +28,42 @@ proxies:
 - name: vless-reality-vision节点               
   type: vless
   server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                           
-  port: 33925                                
-  uuid: 83dcecd1-d40b-4d9d-9254-c7c338f5083f   
+  port: 2000                                
+  uuid: a2c70e29-6c26-44f3-9c97-213f8e181561   
   network: tcp
   udp: true
   tls: true
   flow: xtls-rprx-vision
   servername: www.yahoo.com                 
   reality-opts: 
-    public-key: GlHoGVMCrMH6VUXdzYMu_2VMGnPupXMkHVoceQliiV8    
-    short-id: 08dfd96a                      
-  client-fingerprint: chrome                  
-- name: vmess-ws节点                         
-  type: vmess
-  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                        
-  port: 2082                                     
-  uuid: 83dcecd1-d40b-4d9d-9254-c7c338f5083f       
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  network: ws
-  servername: www.bing.com                    
-  ws-opts:
-    path: "83dcecd1-d40b-4d9d-9254-c7c338f5083f-vm"                             
-    headers:
-      Host: www.bing.com                     
+    public-key: ER3KAGVm5TmPv-O7RhhXyXe2j3W9mAuvp4STddqwU2Q    
+    short-id: 09945f21                      
+  client-fingerprint: chrome                                      
 - name: hysteria2节点                            
   type: hysteria2                                      
-  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                               
-  port: 16372                                
-  password: 83dcecd1-d40b-4d9d-9254-c7c338f5083f                              
+  server: 7.16283684.xyz                               
+  port: 10000                                
+  password: a2c70e29-6c26-44f3-9c97-213f8e181561                              
   alpn:
     - h3
-  sni: 6.16283684.xyz                               
+  sni: 7.16283684.xyz                               
   skip-cert-verify: false
   fast-open: true
   up: "100 Mbps"
   down: "100 Mbps"
 - name: tuic5节点                            
-  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                      
-  port: 20376                                    
+  server: 7.16283684.xyz                      
+  port: 30000                                    
   type: tuic
-  uuid: 83dcecd1-d40b-4d9d-9254-c7c338f5083f       
-  password: 83dcecd1-d40b-4d9d-9254-c7c338f5083f   
+  uuid: a2c70e29-6c26-44f3-9c97-213f8e181561       
+  password: a2c70e29-6c26-44f3-9c97-213f8e181561   
   alpn: [h3]
   disable-sni: true
   reduce-rtt: true
   udp-relay-mode: native
   congestion-controller: bbr
-  sni: www.bing.com                                
-  skip-cert-verify: true  
+  sni: 7.16283684.xyz                                
+  skip-cert-verify: false  
 proxy-groups:
 - name: 负载均衡
   type: load-balance
@@ -87,7 +72,6 @@ proxy-groups:
   strategy: round-robin
   proxies:
     - vless-reality-vision节点                              
-    - vmess-ws节点
     - hysteria2节点
     - tuic5节点
 - name: 自动选择
@@ -97,7 +81,6 @@ proxy-groups:
   tolerance: 50
   proxies:
     - vless-reality-vision节点                              
-    - vmess-ws节点
     - hysteria2节点
     - tuic5节点
     
@@ -108,7 +91,6 @@ proxy-groups:
     - 自动选择
     - DIRECT
     - vless-reality-vision节点                              
-    - vmess-ws节点
     - hysteria2节点
     - tuic5节点
 rules:
