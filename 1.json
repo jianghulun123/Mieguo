@@ -1,98 +1,117 @@
-mixed-port: 10801
+port: 7890
 allow-lan: true
-bind-address: "*"
-find-process-mode: strict
 mode: rule
-geodata-mode: true
-geox-url:
-  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
-  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
-  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb"
 log-level: info
-ipv6: true
+unified-delay: true
 global-client-fingerprint: chrome
-tun:
-  enable: true
-  stack: system
-  dns-hijack:
-    - 0.0.0.0:53
-  auto-detect-interface: true
-  auto-route: true
-  mtu: 9000
-profile:
-  store-selected: false
-  store-fake-ip: true
-sniffer:
-  enable: true
-  override-destination: false
-  sniff:
-    TLS:
-      ports: [443, 8443]
-    HTTP:
-      ports: [80, 8080-8880]
-      override-destination: true
 dns:
   enable: true
-  prefer-h3: true
-  listen: 0.0.0.0:53
+  listen: :53
   ipv6: true
-  ipv6-timeout: 300
-  default-nameserver:
-    - 223.5.5.5
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
+  default-nameserver: 
+    - 223.5.5.5
+    - 8.8.8.8
   nameserver:
-    - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
   fallback:
-    - https://dns.google/dns-query
-    - https://1.1.1.1/dns-query
+    - https://1.0.0.1/dns-query
+    - tls://dns.google
   fallback-filter:
     geoip: true
     geoip-code: CN
-    geosite:
-      - gfw
     ipcidr:
       - 240.0.0.0/4
-    domain:
-      - '+.google.com'
-      - '+.facebook.com'
-      - '+.youtube.com'
-  nameserver-policy:
-    "geosite:cn,private":
-      - https://doh.pub/dns-query
-      - https://dns.alidns.com/dns-query
-    "geosite:category-ads-all": rcode://success
 proxies:
-  - name: hysteria2-2355
-    type: hysteria2
-    server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca
-    port: 10011
-    password: 6S0mzts+vpmJ
-    obfs: salamander
-    obfs-password: UbKcTU0ZAk4d
-    alpn:
-      - h3
-    sni: asia.sega.com
-    skip-cert-verify: true
-    up: "200 Mbps"
-    down: "100 Mbps"
-
+- name: vless-reality-vision节点               
+  type: vless
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                           
+  port: 33925                                
+  uuid: 83dcecd1-d40b-4d9d-9254-c7c338f5083f   
+  network: tcp
+  udp: true
+  tls: true
+  flow: xtls-rprx-vision
+  servername: www.yahoo.com                 
+  reality-opts: 
+    public-key: GlHoGVMCrMH6VUXdzYMu_2VMGnPupXMkHVoceQliiV8    
+    short-id: 08dfd96a                      
+  client-fingerprint: chrome                  
+- name: vmess-ws节点                         
+  type: vmess
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                        
+  port: 2082                                     
+  uuid: 83dcecd1-d40b-4d9d-9254-c7c338f5083f       
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: false
+  network: ws
+  servername: www.bing.com                    
+  ws-opts:
+    path: "83dcecd1-d40b-4d9d-9254-c7c338f5083f-vm"                             
+    headers:
+      Host: www.bing.com                     
+- name: hysteria2节点                            
+  type: hysteria2                                      
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                               
+  port: 16372                                
+  password: 83dcecd1-d40b-4d9d-9254-c7c338f5083f                              
+  alpn:
+    - h3
+  sni: 6.16283684.xyz                               
+  skip-cert-verify: false
+  fast-open: true
+  up: "100 Mbps"
+  down: "100 Mbps"
+- name: tuic5节点                            
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                      
+  port: 20376                                    
+  type: tuic
+  uuid: 83dcecd1-d40b-4d9d-9254-c7c338f5083f       
+  password: 83dcecd1-d40b-4d9d-9254-c7c338f5083f   
+  alpn: [h3]
+  disable-sni: true
+  reduce-rtt: true
+  udp-relay-mode: native
+  congestion-controller: bbr
+  sni: www.bing.com                                
+  skip-cert-verify: true  
 proxy-groups:
-  - name: Proxy
-    type: select
-    proxies:
-      - hysteria2-2355
-      - auto
-  - name: auto
-    type: url-test
-    proxies:
-      - hysteria2-2355
-    url: "https://cp.cloudflare.com/generate_204"
-    interval: 300
+- name: 负载均衡
+  type: load-balance
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  strategy: round-robin
+  proxies:
+    - vless-reality-vision节点                              
+    - vmess-ws节点
+    - hysteria2节点
+    - tuic5节点
+- name: 自动选择
+  type: url-test
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+    - vless-reality-vision节点                              
+    - vmess-ws节点
+    - hysteria2节点
+    - tuic5节点
+    
+- name: 🌍选择代理节点
+  type: select
+  proxies:
+    - 负载均衡                                         
+    - 自动选择
+    - DIRECT
+    - vless-reality-vision节点                              
+    - vmess-ws节点
+    - hysteria2节点
+    - tuic5节点
 rules:
-  - GEOSITE,private,DIRECT
-  - GEOSITE,category-ads-all,REJECT
-  - GEOSITE,cn,DIRECT
-  - GEOIP,cn,DIRECT
-  - MATCH,Proxy
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,🌍选择代理节点
