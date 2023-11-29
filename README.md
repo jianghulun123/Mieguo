@@ -13,7 +13,7 @@
             },
             {
                 "tag": "local",
-                "address": "https://223.5.5.5/dns-query",
+                "address": "https://dns.alidns.com/dns-query",
                 "detour": "direct"
             },
             {
@@ -103,8 +103,8 @@
       "type": "vless",
       "tag": "vless-sb",
       "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
-      "server_port": 33925,
-      "uuid": "83dcecd1-d40b-4d9d-9254-c7c338f5083f",
+      "server_port": 2000,
+      "uuid": "a2c70e29-6c26-44f3-9c97-213f8e181561",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
@@ -115,18 +115,18 @@
         },
       "reality": {
           "enabled": true,
-          "public_key": "GlHoGVMCrMH6VUXdzYMu_2VMGnPupXMkHVoceQliiV8",
-          "short_id": "08dfd96a"
+          "public_key": "ER3KAGVm5TmPv-O7RhhXyXe2j3W9mAuvp4STddqwU2Q",
+          "short_id": "09945f21"
         }
       }
     },
 {
             "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
-            "server_port": 2082,
+            "server_port": 3000,
             "tag": "vmess-sb",
             "tls": {
                 "enabled": false,
-                "server_name": "www.bing.com",
+                "server_name": "7.16283684.xyz",
                 "insecure": false,
                 "utls": {
                     "enabled": true,
@@ -136,27 +136,27 @@
             "transport": {
                 "headers": {
                     "Host": [
-                        "www.bing.com"
+                        "7.16283684.xyz"
                     ]
                 },
-                "path": "83dcecd1-d40b-4d9d-9254-c7c338f5083f-vm",
+                "path": "a2c70e29-6c26-44f3-9c97-213f8e181561-vm",
                 "type": "ws"
             },
             "type": "vmess",
             "security": "auto",
-            "uuid": "83dcecd1-d40b-4d9d-9254-c7c338f5083f"
+            "uuid": "a2c70e29-6c26-44f3-9c97-213f8e181561"
         },
     {
         "type": "hysteria2",
         "tag": "hy2-sb",
-        "server": "6.16283684.xyz",
-        "server_port": 16372,
+        "server": "7.16283684.xyz",
+        "server_port": 10000,
         "up_mbps": 100,
         "down_mbps": 100,
-        "password": "83dcecd1-d40b-4d9d-9254-c7c338f5083f",
+        "password": "a2c70e29-6c26-44f3-9c97-213f8e181561",
         "tls": {
             "enabled": true,
-            "server_name": "6.16283684.xyz",
+            "server_name": "7.16283684.xyz",
             "insecure": false,
             "alpn": [
                 "h3"
@@ -166,10 +166,10 @@
         {
             "type":"tuic",
             "tag": "tuic5-sb",
-            "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
-            "server_port": 20376,
-            "uuid": "83dcecd1-d40b-4d9d-9254-c7c338f5083f",
-            "password": "83dcecd1-d40b-4d9d-9254-c7c338f5083f",
+            "server": "7.16283684.xyz",
+            "server_port": 30000,
+            "uuid": "a2c70e29-6c26-44f3-9c97-213f8e181561",
+            "password": "a2c70e29-6c26-44f3-9c97-213f8e181561",
             "congestion_control": "bbr",
             "udp_relay_mode": "native",
             "udp_over_stream": false,
@@ -177,8 +177,8 @@
             "heartbeat": "10s",
             "tls":{
                 "enabled": true,
-                "server_name": "www.bing.com",
-                "insecure": true,
+                "server_name": "7.16283684.xyz",
+                "insecure": false,
                 "alpn": [
                     "h3"
                 ]
