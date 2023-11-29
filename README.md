@@ -102,7 +102,7 @@
     {
       "type": "vless",
       "tag": "vless-sb",
-      "server": "85.208.104.3",
+      "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
       "server_port": 33925,
       "uuid": "83dcecd1-d40b-4d9d-9254-c7c338f5083f",
       "flow": "xtls-rprx-vision",
@@ -121,7 +121,7 @@
       }
     },
 {
-            "server": "85.208.104.3",
+            "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
             "server_port": 2082,
             "tag": "vmess-sb",
             "tls": {
@@ -166,7 +166,7 @@
         {
             "type":"tuic",
             "tag": "tuic5-sb",
-            "server": "85.208.104.3",
+            "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
             "server_port": 20376,
             "uuid": "83dcecd1-d40b-4d9d-9254-c7c338f5083f",
             "password": "83dcecd1-d40b-4d9d-9254-c7c338f5083f",
