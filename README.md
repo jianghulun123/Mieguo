@@ -89,19 +89,19 @@
     {
       "type": "hysteria2",
       "tag": "Hysteria2-9643",
-      "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca", 
-      "server_port": 10011,
-      "up_mbps": 200, 
+      "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
+      "server_port": 16372,
+      "up_mbps": 100,
       "down_mbps": 100,
       "obfs": {
-        "type": "salamander",
-        "password": "UbKcTU0ZAk4d"
+        "type": "hysteria2",
+        "password": "83dcecd1-d40b-4d9d-9254-c7c338f5083f"
       },
-      "password": "6S0mzts+vpmJ",
+      "password": "83dcecd1-d40b-4d9d-9254-c7c338f5083f",
       "tls": {
         "enabled": true,
         "insecure": true,
-        "server_name": "asia.sega.com", 
+        "server_name": "6.16283684.xyz",
         "alpn": [
           "h3"
         ]
