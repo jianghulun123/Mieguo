@@ -9,32 +9,42 @@
             {
                 "tag": "remote",
                 "address": "https://8.8.8.8/dns-query",
+                "address_resolver": "dns_resolver",
                 "detour": "select"
             },
             {
                 "tag": "local",
                 "address": "https://dns.alidns.com/dns-query",
+                "address_resolver": "dns_resolver",
                 "detour": "direct"
             },
             {
-                "address": "rcode://success",
+                "address": "rcode://refused",
                 "tag": "block"
             },
             {
                 "tag": "dns_fakeip",
-                "strategy": "ipv4_only",
                 "address": "fakeip"
+            },
+            {
+                "tag": "dns_resolver",
+                "address": "223.5.5.5",
+                "detour": "direct"
             }
         ],
         "rules": [
             {
-                "outbound": "any",
-                "server": "local"
+                "outbound": [
+                    "any"
+                ],
+                "server": "dns_resolver"
             },
             {
-                "disable_cache": true,
-                "geosite": "category-ads-all",
-                "server": "block"
+                "geosite": [
+                    "category-ads-all"
+                ],
+                "server": "block",
+                "disable_cache": true
             },
             {
                 "clash_mode": "Global",
@@ -45,15 +55,20 @@
                 "server": "local"
             },
             {
-                "geosite": "cn",
-                "server": "local"
+                "geosite": [
+                    "geolocation-!cn"
+                ],
+                "server": "remote"
             },
              {
-               "query_type": [
-                "A",
-                "AAAA"
-               ],
-              "server": "dns_fakeip"
+                "geosite": [
+                    "geolocation-!cn"
+                ],
+                "query_type": [
+                    "A",
+                    "AAAA"
+                ],
+                "server": "dns_fakeip"
             }
           ],
            "fakeip": {
@@ -61,16 +76,20 @@
            "inet4_range": "198.18.0.0/15",
            "inet6_range": "fc00::/18"
          },
-          "independent_cache": true
+          "independent_cache": true,
+          "final": "local"
         },
       "inbounds": [
     {
       "type": "tun",
+      "tag": "tun-in",
       "inet4_address": "172.19.0.1/30",
       "inet6_address": "fdfe:dcba:9876::1/126",
       "auto_route": true,
       "strict_route": true,
-      "sniff": true
+      "stack": "mixed",
+      "sniff": true,
+      "sniff_override_destination": false
     }
   ],
   "experimental": {
@@ -115,8 +134,7 @@
         },
       "reality": {
           "enabled": true,
-          "public_key": "ER3KAGVm5TmPv-O7RhhXyXe2j3W9mAuvp4STddqwU2Q",
-          "short_id": "09945f21"
+          "public_key": "ER3KAGVm5TmPv-O7RhhXyXe2j3W9mAuvp4STddqwU2Q",          "short_id": "09945f21"
         }
       }
     },
@@ -150,7 +168,7 @@
         "type": "hysteria2",
         "tag": "hy2-sb",
         "server": "7.16283684.xyz",
-        "server_port": 10000,
+        "server_port": 10000,10001:29999
         "up_mbps": 100,
         "down_mbps": 100,
         "password": "a2c70e29-6c26-44f3-9c97-213f8e181561",
@@ -221,6 +239,7 @@
       "download_detour": "select"
     },
     "auto_detect_interface": true,
+    "final": "select",
     "rules": [
       {
         "geosite": "category-ads-all",
