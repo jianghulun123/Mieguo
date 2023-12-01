@@ -9,7 +9,7 @@
             {
                 "tag": "remote",
                 "address": "https://8.8.8.8/dns-query",
-                "address_resolver": "dns_resolver",
+                "address_resolver": "dns_resolver",               
                 "detour": "select"
             },
             {
@@ -121,7 +121,7 @@
     {
       "type": "vless",
       "tag": "vless-sb",
-      "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
+      "server": "7.16283684.xyz",
       "server_port": 2000,
       "uuid": "a2c70e29-6c26-44f3-9c97-213f8e181561",
       "flow": "xtls-rprx-vision",
@@ -134,12 +134,13 @@
         },
       "reality": {
           "enabled": true,
-          "public_key": "ER3KAGVm5TmPv-O7RhhXyXe2j3W9mAuvp4STddqwU2Q",          "short_id": "09945f21"
+          "public_key": "ER3KAGVm5TmPv-O7RhhXyXe2j3W9mAuvp4STddqwU2Q",
+          "short_id": "09945f21"
         }
       }
     },
 {
-            "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
+            "server": "7.16283684.xyz",
             "server_port": 3000,
             "tag": "vmess-sb",
             "tls": {
@@ -168,7 +169,7 @@
         "type": "hysteria2",
         "tag": "hy2-sb",
         "server": "7.16283684.xyz",
-        "server_port": 10000,10001:29999,
+        "server_port": 10000,
         "up_mbps": 100,
         "down_mbps": 100,
         "password": "a2c70e29-6c26-44f3-9c97-213f8e181561",
