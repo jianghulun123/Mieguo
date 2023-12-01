@@ -168,7 +168,7 @@
         "type": "hysteria2",
         "tag": "hy2-sb",
         "server": "7.16283684.xyz",
-        "server_port": 10000,10001:29999
+        "server_port": 10000,10001:29999,
         "up_mbps": 100,
         "down_mbps": 100,
         "password": "a2c70e29-6c26-44f3-9c97-213f8e181561",
