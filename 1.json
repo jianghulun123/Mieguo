@@ -27,7 +27,7 @@ dns:
 proxies:
 - name: vless-reality-vision节点               
   type: vless
-  server: 7.16283684.xyz                           
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                           
   port: 3000                                
   uuid: 8d94b011-dab7-47d9-abe5-f1ec5121b74f   
   network: tcp
@@ -41,18 +41,16 @@ proxies:
   client-fingerprint: chrome                                      
 - name: hysteria2节点                            
   type: hysteria2                                      
-  server: 7.16283684.xyz                               
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                               
   port: 5000                                
   password: 8d94b011-dab7-47d9-abe5-f1ec5121b74f                              
   alpn:
     - h3
-  sni: 7.16283684.xyz                               
-  skip-cert-verify: false
+  sni: www.bing.com                               
+  skip-cert-verify: true
   fast-open: true
-  up: 50
-  down: 100
 - name: tuic5节点                            
-  server: 7.16283684.xyz                      
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                      
   port: 20000                                    
   type: tuic
   uuid: 8d94b011-dab7-47d9-abe5-f1ec5121b74f       
@@ -62,8 +60,8 @@ proxies:
   reduce-rtt: true
   udp-relay-mode: native
   congestion-controller: bbr
-  sni: 7.16283684.xyz                                
-  skip-cert-verify: false  
+  sni: www.bing.com                                
+  skip-cert-verify: true  
 proxy-groups:
 - name: 负载均衡
   type: load-balance
