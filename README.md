@@ -8,36 +8,28 @@
         "servers": [
             {
                 "tag": "remote",
-                "address": "https://8.8.8.8/dns-query",
-                "address_resolver": "dns_resolver",               
+                "address": "https://8.8.8.8/dns-query",             
                 "detour": "select"
             },
             {
                 "tag": "local",
-                "address": "https://dns.alidns.com/dns-query",
-                "address_resolver": "dns_resolver",
+                "address": "h3://223.5.5.5/dns-query",
                 "detour": "direct"
             },
             {
-                "address": "rcode://refused",
+                "address": "rcode://success",
                 "tag": "block"
             },
             {
                 "tag": "dns_fakeip",
                 "address": "fakeip"
-            },
-            {
-                "tag": "dns_resolver",
-                "address": "223.5.5.5",
-                "detour": "direct"
             }
         ],
         "rules": [
             {
-                "outbound": [
-                    "any"
-                ],
-                "server": "dns_resolver"
+                "outbound": "any",
+                "server": "local",
+                "disable_cache": true
             },
             {
                 "clash_mode": "Global",
@@ -48,15 +40,15 @@
                 "server": "local"
             },
             {
-                "geosite": [
-                    "geolocation-!cn"
-                ],
+                "geosite": "cn",
+                "server": "local"
+            },
+            {
+                "geosite": "geolocation-!cn",
                 "server": "remote"
             },
              {
-                "geosite": [
-                    "geolocation-!cn"
-                ],             
+                "geosite": "geolocation-!cn",             
                 "query_type": [
                     "A",
                     "AAAA"
@@ -69,19 +61,18 @@
            "inet4_range": "198.18.0.0/15",
            "inet6_range": "fc00::/18"
          },
-          "independent_cache": true
+          "independent_cache": true,
+          "final": "remote"
         },
       "inbounds": [
     {
       "type": "tun",
-      "tag": "tun-in",
       "inet4_address": "172.19.0.1/30",
       //"inet6_address": "fdfe:dcba:9876::1/126",
       "auto_route": true,
       "strict_route": true,
       "stack": "mixed",
-      "sniff": true,
-      "sniff_override_destination": false
+      "sniff": true
     }
   ],
   "experimental": {
@@ -105,7 +96,6 @@
       "outbounds": [
         "auto",
         "vless-sb",
-        "vmess-sb",
         "hy2-sb",
         "tuic5-sb"
       ]
@@ -114,8 +104,8 @@
       "type": "vless",
       "tag": "vless-sb",
       "server": "7.16283684.xyz",
-      "server_port": 2000,
-      "uuid": "24a0c1e4-8887-4e07-b4f4-8d310471feba",
+      "server_port": 3000,
+      "uuid": "8d94b011-dab7-47d9-abe5-f1ec5121b74f",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
@@ -126,45 +116,19 @@
         },
       "reality": {
           "enabled": true,
-          "public_key": "PLYfNojrqD0mdSQ3GqNdQ17nD68Ew39sZF-8ZMYCGA8",
-          "short_id": "c30ec2a2"
+          "public_key": "cx1KPOeu7ceqA_WxwQF6YD7XpX4cCsxenYilWKkKTkY",
+          "short_id": "f518ac57"
         }
       }
     },
-{
-            "server": "7.16283684.xyz",
-            "server_port": 3000,
-            "tag": "vmess-sb",
-            "tls": {
-                "enabled": false,
-                "server_name": "7.16283684.xyz",
-                "insecure": false,
-                "utls": {
-                    "enabled": true,
-                    "fingerprint": "chrome"
-                }
-            },
-            "transport": {
-                "headers": {
-                    "Host": [
-                        "7.16283684.xyz"
-                    ]
-                },
-                "path": "24a0c1e4-8887-4e07-b4f4-8d310471feba-vm",
-                "type": "ws"
-            },
-            "type": "vmess",
-            "security": "auto",
-            "uuid": "24a0c1e4-8887-4e07-b4f4-8d310471feba"
-        },
     {
         "type": "hysteria2",
         "tag": "hy2-sb",
         "server": "7.16283684.xyz",
-        "server_port": 4000,
+        "server_port": 5000,
         "up_mbps": 50, 
         "down_mbps": 100,
-        "password": "24a0c1e4-8887-4e07-b4f4-8d310471feba",
+        "password": "8d94b011-dab7-47d9-abe5-f1ec5121b74f",
         "tls": {
             "enabled": true,
             "server_name": "7.16283684.xyz",
@@ -178,9 +142,9 @@
             "type":"tuic",
             "tag": "tuic5-sb",
             "server": "7.16283684.xyz",
-            "server_port": 20001,
-            "uuid": "24a0c1e4-8887-4e07-b4f4-8d310471feba",
-            "password": "24a0c1e4-8887-4e07-b4f4-8d310471feba",
+            "server_port": 20000,
+            "uuid": "8d94b011-dab7-47d9-abe5-f1ec5121b74f",
+            "password": "8d94b011-dab7-47d9-abe5-f1ec5121b74f",
             "congestion_control": "bbr",
             "udp_relay_mode": "native",
             "udp_over_stream": false,
@@ -212,7 +176,6 @@
       "type": "urltest",
       "outbounds": [
         "vless-sb",
-        "vmess-sb",
         "hy2-sb",
         "tuic5-sb"
       ],
@@ -232,6 +195,7 @@
       "download_detour": "select"
     },
     "auto_detect_interface": true,
+    "final": "select",
     "rules": [
       {
         "outbound": "dns-out",
