@@ -49,6 +49,8 @@ proxies:
   sni: www.bing.com                               
   skip-cert-verify: true
   fast-open: true
+  up: 50
+  down: 100
 - name: tuic5节点                            
   server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                      
   port: 20000                                    
