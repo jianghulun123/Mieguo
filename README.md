@@ -121,7 +121,7 @@
         }
       }
     },
-  {
+{
         "type": "hysteria2",
         "tag": "hy2-sb",
         "server": "7.16283684.xyz",
