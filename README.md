@@ -9,7 +9,7 @@
             {
                 "tag": "remote",
                 "address": "https://8.8.8.8/dns-query",
-                "address_resolver": "dns_resolver",               
+                "address_resolver": "dns_resolver",
                 "detour": "select"
             },
             {
@@ -38,13 +38,6 @@
                     "any"
                 ],
                 "server": "dns_resolver"
-            },
-            {
-                "geosite": [
-                    "category-ads-all"
-                ],
-                "server": "block",
-                "disable_cache": true
             },
             {
                 "clash_mode": "Global",
@@ -76,8 +69,7 @@
            "inet4_range": "198.18.0.0/15",
            "inet6_range": "fc00::/18"
          },
-          "independent_cache": true,
-          "final": "local"
+          "independent_cache": true
         },
       "inbounds": [
     {
@@ -134,8 +126,7 @@
         },
       "reality": {
           "enabled": true,
-          "public_key": "ER3KAGVm5TmPv-O7RhhXyXe2j3W9mAuvp4STddqwU2Q",
-          "short_id": "09945f21"
+          "public_key": "ER3KAGVm5TmPv-O7RhhXyXe2j3W9mAuvp4STddqwU2Q",          "short_id": "09945f21"
         }
       }
     },
@@ -232,20 +223,15 @@
   ],
   "route": {
       "geoip": {
-      "download_url": "https://mirror.ghproxy.com/https://github.com/SagerNet/sing-geoip/releases/latest/download/geoip.db",
+      "download_url": "https://mirror.ghproxy.com/https://github.com/soffchen/sing-geoip/releases/latest/download/geoip.db",
       "download_detour": "select"
     },
     "geosite": {
-      "download_url": "https://mirror.ghproxy.com/https://github.com/SagerNet/sing-geosite/releases/latest/download/geosite.db",
+      "download_url": "https://mirror.ghproxy.com/https://github.com/soffchen/sing-geosite/releases/latest/download/geosite.db",
       "download_detour": "select"
     },
     "auto_detect_interface": true,
-    "final": "select",
     "rules": [
-      {
-        "geosite": "category-ads-all",
-        "outbound": "block"
-      },
       {
         "outbound": "dns-out",
         "protocol": "dns"
