@@ -103,7 +103,7 @@
     {
       "type": "vless",
       "tag": "vless-sb",
-      "server": "7.16283684.xyz",
+      "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
       "server_port": 3000,
       "uuid": "8d94b011-dab7-47d9-abe5-f1ec5121b74f",
       "flow": "xtls-rprx-vision",
@@ -121,18 +121,16 @@
         }
       }
     },
-{
+    {
         "type": "hysteria2",
         "tag": "hy2-sb",
-        "server": "7.16283684.xyz",
+        "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
         "server_port": 5000,
-        "up_mbps": 50, 
-        "down_mbps": 100,
         "password": "8d94b011-dab7-47d9-abe5-f1ec5121b74f",
         "tls": {
             "enabled": true,
-            "server_name": "7.16283684.xyz",
-            "insecure": false,
+            "server_name": "www.bing.com",
+            "insecure": true,
             "alpn": [
                 "h3"
             ]
@@ -141,7 +139,7 @@
         {
             "type":"tuic",
             "tag": "tuic5-sb",
-            "server": "7.16283684.xyz",
+            "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
             "server_port": 20000,
             "uuid": "8d94b011-dab7-47d9-abe5-f1ec5121b74f",
             "password": "8d94b011-dab7-47d9-abe5-f1ec5121b74f",
@@ -152,8 +150,8 @@
             "heartbeat": "10s",
             "tls":{
                 "enabled": true,
-                "server_name": "7.16283684.xyz",
-                "insecure": false,
+                "server_name": "www.bing.com",
+                "insecure": true,
                 "alpn": [
                     "h3"
                 ]
