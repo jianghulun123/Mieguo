@@ -38,22 +38,7 @@ proxies:
   reality-opts: 
     public-key: cx1KPOeu7ceqA_WxwQF6YD7XpX4cCsxenYilWKkKTkY    
     short-id: f518ac57                      
-  client-fingerprint: chrome                  
-- name: vmess-ws节点                         
-  type: vmess
-  server: 7.16283684.xyz                        
-  port: 4000                                     
-  uuid: 8d94b011-dab7-47d9-abe5-f1ec5121b74f       
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  network: ws
-  servername: 7.16283684.xyz                    
-  ws-opts:
-    path: "8d94b011-dab7-47d9-abe5-f1ec5121b74f-vm"                             
-    headers:
-      Host: 7.16283684.xyz                     
+  client-fingerprint: chrome                                      
 - name: hysteria2节点                            
   type: hysteria2                                      
   server: 7.16283684.xyz                               
@@ -87,7 +72,6 @@ proxy-groups:
   strategy: round-robin
   proxies:
     - vless-reality-vision节点                              
-    - vmess-ws节点
     - hysteria2节点
     - tuic5节点
 - name: 自动选择
@@ -97,7 +81,6 @@ proxy-groups:
   tolerance: 50
   proxies:
     - vless-reality-vision节点                              
-    - vmess-ws节点
     - hysteria2节点
     - tuic5节点
     
@@ -108,7 +91,6 @@ proxy-groups:
     - 自动选择
     - DIRECT
     - vless-reality-vision节点                              
-    - vmess-ws节点
     - hysteria2节点
     - tuic5节点
 rules:
