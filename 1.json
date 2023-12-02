@@ -4,7 +4,6 @@ mode: rule
 log-level: info
 unified-delay: true
 global-client-fingerprint: chrome
-ipv6: true
 dns:
   enable: true
   listen: :53
@@ -25,50 +24,94 @@ dns:
     geoip-code: CN
     ipcidr:
       - 240.0.0.0/4
-
-proxies:        
-  - name: Reality-Brutal
-    type: vless
-    server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca
-    port: 2000
-    uuid: a6b55400-8813-487f-986b-8de7b1714021
-    network: tcp
-    udp: true
-    tls: true
-    flow: 
-    servername: itunes.apple.com
-    client-fingerprint: chrome
-    reality-opts:
-      public-key: _54IRbhG5yBLbirZaOiyCIG9yB6TQ7nOrOA97bPlJjE
-      short-id: dbe2b58d87d0645c
-    smux:
-      enabled: true
-      protocol: h2mux
-      max-connections: 1
-      min-streams: 4
-      padding: true
-      brutal-opts:
-        enabled: true
-        up: 50
-        down: 100
-
+proxies:
+- name: vless-reality-vision节点               
+  type: vless
+  server: 7.16283684.xyz                           
+  port: 2000                                
+  uuid: 24a0c1e4-8887-4e07-b4f4-8d310471feba   
+  network: tcp
+  udp: true
+  tls: true
+  flow: xtls-rprx-vision
+  servername: www.yahoo.com                 
+  reality-opts: 
+    public-key: PLYfNojrqD0mdSQ3GqNdQ17nD68Ew39sZF-8ZMYCGA8    
+    short-id: c30ec2a2                      
+  client-fingerprint: chrome                  
+- name: vmess-ws节点                         
+  type: vmess
+  server: 7.16283684.xyz                        
+  port: 3000                                     
+  uuid: 24a0c1e4-8887-4e07-b4f4-8d310471feba       
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: false
+  network: ws
+  servername: 7.16283684.xyz                    
+  ws-opts:
+    path: "24a0c1e4-8887-4e07-b4f4-8d310471feba-vm"                             
+    headers:
+      Host: 7.16283684.xyz                     
+- name: hysteria2节点                            
+  type: hysteria2                                      
+  server: 7.16283684.xyz                               
+  port: 4000                                
+  password: 24a0c1e4-8887-4e07-b4f4-8d310471feba                              
+  alpn:
+    - h3
+  sni: 7.16283684.xyz                               
+  skip-cert-verify: false
+  fast-open: true
+  up: 50
+  down: 100
+- name: tuic5节点                            
+  server: 7.16283684.xyz                      
+  port: 20001                                    
+  type: tuic
+  uuid: 24a0c1e4-8887-4e07-b4f4-8d310471feba       
+  password: 24a0c1e4-8887-4e07-b4f4-8d310471feba   
+  alpn: [h3]
+  disable-sni: true
+  reduce-rtt: true
+  udp-relay-mode: native
+  congestion-controller: bbr
+  sni: 7.16283684.xyz                                
+  skip-cert-verify: false  
 proxy-groups:
-  - name: 节点选择
-    type: select
-    proxies:
-      - 自动选择
-      - Reality-Brutal
-
-  - name: 自动选择
-    type: url-test #选出延迟最低的机场节点
-    proxies:
-      - Reality-Brutal
-    url: "http://www.gstatic.com/generate_204"
-    interval: 300
-    tolerance: 50
-
-
+- name: 负载均衡
+  type: load-balance
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  strategy: round-robin
+  proxies:
+    - vless-reality-vision节点                              
+    - vmess-ws节点
+    - hysteria2节点
+    - tuic5节点
+- name: 自动选择
+  type: url-test
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+    - vless-reality-vision节点                              
+    - vmess-ws节点
+    - hysteria2节点
+    - tuic5节点
+    
+- name: 🌍选择代理节点
+  type: select
+  proxies:
+    - 负载均衡                                         
+    - 自动选择
+    - DIRECT
+    - vless-reality-vision节点                              
+    - vmess-ws节点
+    - hysteria2节点
+    - tuic5节点
 rules:
-    - GEOIP,LAN,DIRECT
-    - GEOIP,CN,DIRECT
-    - MATCH,节点选择
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,🌍选择代理节点
