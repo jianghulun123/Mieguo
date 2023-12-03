@@ -10,7 +10,7 @@ dns:
   ipv6: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  default-nameserver: 
+  default-nameserver:
     - 223.5.5.5
     - 8.8.8.8
   nameserver:
@@ -25,75 +25,92 @@ dns:
     ipcidr:
       - 240.0.0.0/4
 proxies:
-- name: vless-reality-vision节点               
+- name: vless-reality-vision节 点
   type: vless
-  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                           
-  port: 3000                                
-  uuid: 8d94b011-dab7-47d9-abe5-f1ec5121b74f   
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca
+  port: 25611
+  uuid: f8346500-5d28-4264-ad4d-093e895eefc8
   network: tcp
   udp: true
   tls: true
   flow: xtls-rprx-vision
-  servername: www.yahoo.com                 
-  reality-opts: 
-    public-key: cx1KPOeu7ceqA_WxwQF6YD7XpX4cCsxenYilWKkKTkY    
-    short-id: f518ac57                      
-  client-fingerprint: chrome                                      
-- name: hysteria2节点                            
-  type: hysteria2                                      
-  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                               
-  port: 12990                                
-  password: 8d94b011-dab7-47d9-abe5-f1ec5121b74f                              
+  servername: www.yahoo.com
+  reality-opts:
+    public-key: FWEooQFzOTSql3Se9Hj33G5rU33klYfWnusr4XyoCxg
+    short-id: a5a66757
+  client-fingerprint: chrome
+- name: vmess-ws节 点
+  type: vmess
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca
+  port: 8080
+  uuid: f8346500-5d28-4264-ad4d-093e895eefc8
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: false
+  network: ws
+  servername: www.bing.com
+  ws-opts:
+    path: "f8346500-5d28-4264-ad4d-093e895eefc8-vm"
+    headers:
+      Host: www.bing.com
+- name: hysteria2节 点
+  type: hysteria2
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca
+  port: 14209
+  up: 100
+  down: 100
+  password: f8346500-5d28-4264-ad4d-093e895eefc8
   alpn:
     - h3
-  sni: www.bing.com                               
+  sni: www.bing.com
   skip-cert-verify: true
   fast-open: true
-  up: 50
-  down: 100
-- name: tuic5节点                            
-  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                      
-  port: 20000                                    
+- name: tuic5节 点
+  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca
+  port: 47774
   type: tuic
-  uuid: 8d94b011-dab7-47d9-abe5-f1ec5121b74f       
-  password: 8d94b011-dab7-47d9-abe5-f1ec5121b74f   
+  uuid: f8346500-5d28-4264-ad4d-093e895eefc8
+  password: f8346500-5d28-4264-ad4d-093e895eefc8
   alpn: [h3]
   disable-sni: true
   reduce-rtt: true
   udp-relay-mode: native
   congestion-controller: bbr
-  sni: www.bing.com                                
-  skip-cert-verify: true  
+  sni: www.bing.com
+  skip-cert-verify: true
 proxy-groups:
-- name: 负载均衡
+- name: 负 载 均 衡
   type: load-balance
   url: https://cp.cloudflare.com/generate_204
   interval: 300
   strategy: round-robin
   proxies:
-    - vless-reality-vision节点                              
-    - hysteria2节点
-    - tuic5节点
-- name: 自动选择
+    - vless-reality-vision节 点
+    - vmess-ws节 点
+    - hysteria2节 点
+    - tuic5节 点
+- name: 自 动 选 择
   type: url-test
   url: https://cp.cloudflare.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-    - vless-reality-vision节点                              
-    - hysteria2节点
-    - tuic5节点
-    
-- name: 🌍选择代理节点
+    - vless-reality-vision节 点
+    - vmess-ws节 点
+    - hysteria2节 点
+    - tuic5节 点
+- name: 🌍选 择 代 理 节 点
   type: select
   proxies:
-    - 负载均衡                                         
-    - 自动选择
+    - 负 载 均 衡
+    - 自 动 选 择
     - DIRECT
-    - vless-reality-vision节点                              
-    - hysteria2节点
-    - tuic5节点
+    - vless-reality-vision节 点
+    - vmess-ws节 点
+    - hysteria2节 点
+    - tuic5节 点
 rules:
   - GEOIP,LAN,DIRECT
   - GEOIP,CN,DIRECT
-  - MATCH,🌍选择代理节点
+  - MATCH,🌍选 择 代 理 节 点
