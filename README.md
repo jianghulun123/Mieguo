@@ -104,9 +104,9 @@
     {
       "type": "vless",
       "tag": "vless-sb",
-      "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
-      "server_port": 46904,
-      "uuid": "d151428c-9496-4ec2-84a3-b9de4b5a3a41",
+      "server": "89.213.182.72",
+      "server_port": 10913,
+      "uuid": "a065e4fd-54f3-40a1-b752-1402cf12c369",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
@@ -117,14 +117,14 @@
         },
       "reality": {
           "enabled": true,
-          "public_key": "IIttuP5sQpBiw25W9LLk0GtqnfagMR2TcYouAzBu434",
-          "short_id": "37a3c19b"
+          "public_key": "fwjTfDD6H7eTc6erGIf-qXqwIf7rFjTzI8yQJ5nUYhE",
+          "short_id": "9e426d79"
         }
       }
     },
 {
-            "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
-            "server_port": 2082,
+            "server": "89.213.182.72",
+            "server_port": 2095,
             "tag": "vmess-sb",
             "tls": {
                 "enabled": false,
@@ -141,23 +141,23 @@
                         "www.bing.com"
                     ]
                 },
-                "path": "d151428c-9496-4ec2-84a3-b9de4b5a3a41-vm",
+                "path": "a065e4fd-54f3-40a1-b752-1402cf12c369-vm",
                 "type": "ws"
             },
             "type": "vmess",
             "security": "auto",
-            "uuid": "d151428c-9496-4ec2-84a3-b9de4b5a3a41"
+            "uuid": "a065e4fd-54f3-40a1-b752-1402cf12c369"
         },
     {
         "type": "hysteria2",
         "tag": "hy2-sb",
-        "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
-        "server_port": 8214,
-        "password": "d151428c-9496-4ec2-84a3-b9de4b5a3a41",
+        "server": "mieguovps.16283684.xyz",
+        "server_port": 26616,
+        "password": "a065e4fd-54f3-40a1-b752-1402cf12c369",
         "tls": {
             "enabled": true,
-            "server_name": "www.bing.com",
-            "insecure": true,
+            "server_name": "mieguovps.16283684.xyz",
+            "insecure": false,
             "alpn": [
                 "h3"
             ]
@@ -166,10 +166,10 @@
         {
             "type":"tuic",
             "tag": "tuic5-sb",
-            "server": "2602:fa4f:200:433f:fdad:53b9:9ec1:48ca",
-            "server_port": 4013,
-            "uuid": "d151428c-9496-4ec2-84a3-b9de4b5a3a41",
-            "password": "d151428c-9496-4ec2-84a3-b9de4b5a3a41",
+            "server": "mieguovps.16283684.xyz",
+            "server_port": 37990,
+            "uuid": "a065e4fd-54f3-40a1-b752-1402cf12c369",
+            "password": "a065e4fd-54f3-40a1-b752-1402cf12c369",
             "congestion_control": "bbr",
             "udp_relay_mode": "native",
             "udp_over_stream": false,
@@ -177,8 +177,8 @@
             "heartbeat": "10s",
             "tls":{
                 "enabled": true,
-                "server_name": "www.bing.com",
-                "insecure": true,
+                "server_name": "mieguovps.16283684.xyz",
+                "insecure": false,
                 "alpn": [
                     "h3"
                 ]
