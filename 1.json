@@ -27,23 +27,23 @@ dns:
 proxies:
 - name: vless-reality-vision节点               
   type: vless
-  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                           
-  port: 46904                                
-  uuid: d151428c-9496-4ec2-84a3-b9de4b5a3a41   
+  server: 89.213.182.72                           
+  port: 10913                                
+  uuid: a065e4fd-54f3-40a1-b752-1402cf12c369   
   network: tcp
   udp: true
   tls: true
   flow: xtls-rprx-vision
   servername: www.yahoo.com                 
   reality-opts: 
-    public-key: IIttuP5sQpBiw25W9LLk0GtqnfagMR2TcYouAzBu434    
-    short-id: 37a3c19b                      
+    public-key: fwjTfDD6H7eTc6erGIf-qXqwIf7rFjTzI8yQJ5nUYhE    
+    short-id: 9e426d79                      
   client-fingerprint: chrome                  
 - name: vmess-ws节点                         
   type: vmess
-  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                        
-  port: 2082                                     
-  uuid: d151428c-9496-4ec2-84a3-b9de4b5a3a41       
+  server: 89.213.182.72                        
+  port: 2095                                     
+  uuid: a065e4fd-54f3-40a1-b752-1402cf12c369       
   alterId: 0
   cipher: auto
   udp: true
@@ -51,32 +51,32 @@ proxies:
   network: ws
   servername: www.bing.com                    
   ws-opts:
-    path: "d151428c-9496-4ec2-84a3-b9de4b5a3a41-vm"                             
+    path: "a065e4fd-54f3-40a1-b752-1402cf12c369-vm"                             
     headers:
       Host: www.bing.com                     
 - name: hysteria2节点                            
   type: hysteria2                                      
-  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                               
-  port: 8214                                
-  password: d151428c-9496-4ec2-84a3-b9de4b5a3a41                              
+  server: mieguovps.16283684.xyz                               
+  port: 26616                                
+  password: a065e4fd-54f3-40a1-b752-1402cf12c369                              
   alpn:
     - h3
-  sni: www.bing.com                               
-  skip-cert-verify: true
+  sni: mieguovps.16283684.xyz                               
+  skip-cert-verify: false
   fast-open: true
 - name: tuic5节点                            
-  server: 2602:fa4f:200:433f:fdad:53b9:9ec1:48ca                      
-  port: 4013                                    
+  server: mieguovps.16283684.xyz                      
+  port: 37990                                    
   type: tuic
-  uuid: d151428c-9496-4ec2-84a3-b9de4b5a3a41       
-  password: d151428c-9496-4ec2-84a3-b9de4b5a3a41   
+  uuid: a065e4fd-54f3-40a1-b752-1402cf12c369       
+  password: a065e4fd-54f3-40a1-b752-1402cf12c369   
   alpn: [h3]
   disable-sni: true
   reduce-rtt: true
   udp-relay-mode: native
   congestion-controller: bbr
-  sni: www.bing.com                                
-  skip-cert-verify: true  
+  sni: mieguovps.16283684.xyz                                
+  skip-cert-verify: false  
 proxy-groups:
 - name: 负载均衡
   type: load-balance
