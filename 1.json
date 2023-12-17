@@ -28,22 +28,37 @@ proxies:
 - name: vless-reality-vision节点               
   type: vless
   server: 89.213.182.72                           
-  port: 21349                                
-  uuid: b282c791-077e-48b2-b820-66c601df52c0   
+  port: 10086                                
+  uuid: af5ca934-ab05-4f3a-a208-55247cfea1c6   
   network: tcp
   udp: true
   tls: true
   flow: xtls-rprx-vision
   servername: www.yahoo.com                 
   reality-opts: 
-    public-key: Rbew0Q3K0EX0p9MW4U_AEGTOV5HuqtxUed_WbyTW-iA    
-    short-id: 456e9f5a                      
-  client-fingerprint: chrome                                      
+    public-key: mWY9hW1JAEwTCbs1C8tYYIG5d98QYS3hqIGygsZTnVs    
+    short-id: 76294d87                      
+  client-fingerprint: chrome                  
+- name: vmess-ws节点                         
+  type: vmess
+  server: mieguo.16283684.xyz                        
+  port: 2000                                     
+  uuid: af5ca934-ab05-4f3a-a208-55247cfea1c6       
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: true
+  network: ws
+  servername: mieguo.16283684.xyz                    
+  ws-opts:
+    path: "af5ca934-ab05-4f3a-a208-55247cfea1c6-vm"                             
+    headers:
+      Host: mieguo.16283684.xyz                     
 - name: hysteria2节点                            
   type: hysteria2                                      
   server: mieguo.16283684.xyz                               
-  port: 31749                                
-  password: b282c791-077e-48b2-b820-66c601df52c0                              
+  port: 48377                                
+  password: af5ca934-ab05-4f3a-a208-55247cfea1c6                              
   alpn:
     - h3
   sni: mieguo.16283684.xyz                               
@@ -51,10 +66,10 @@ proxies:
   fast-open: true
 - name: tuic5节点                            
   server: mieguo.16283684.xyz                      
-  port: 6448                                    
+  port: 10000                                    
   type: tuic
-  uuid: b282c791-077e-48b2-b820-66c601df52c0       
-  password: b282c791-077e-48b2-b820-66c601df52c0   
+  uuid: af5ca934-ab05-4f3a-a208-55247cfea1c6       
+  password: af5ca934-ab05-4f3a-a208-55247cfea1c6   
   alpn: [h3]
   disable-sni: true
   reduce-rtt: true
@@ -70,6 +85,7 @@ proxy-groups:
   strategy: round-robin
   proxies:
     - vless-reality-vision节点                              
+    - vmess-ws节点
     - hysteria2节点
     - tuic5节点
 - name: 自动选择
@@ -79,6 +95,7 @@ proxy-groups:
   tolerance: 50
   proxies:
     - vless-reality-vision节点                              
+    - vmess-ws节点
     - hysteria2节点
     - tuic5节点
     
@@ -89,6 +106,7 @@ proxy-groups:
     - 自动选择
     - DIRECT
     - vless-reality-vision节点                              
+    - vmess-ws节点
     - hysteria2节点
     - tuic5节点
 rules:
