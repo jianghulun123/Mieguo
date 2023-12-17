@@ -1,259 +1,74 @@
-{
-  "log": {
-    "disabled": false,
-    "level": "info",
-    "timestamp": true
-  },
-    "dns": {
-        "servers": [
-            {
-                "tag": "remote",
-                "address": "https://8.8.8.8/dns-query",             
-                "detour": "select"
-            },
-            {
-                "tag": "local",
-                "address": "h3://223.5.5.5/dns-query",
-                "detour": "direct"
-            },
-            {
-                "address": "rcode://success",
-                "tag": "block"
-            },
-            {
-                "tag": "dns_fakeip",
-                "address": "fakeip"
-            }
-        ],
-        "rules": [
-            {
-                "outbound": "any",
-                "server": "local",
-                "disable_cache": true
-            },
-            {
-                "clash_mode": "Global",
-                "server": "remote"
-            },
-            {
-                "clash_mode": "Direct",
-                "server": "local"
-            },
-            {
-                "geosite": "cn",
-                "server": "local"
-            },
-            {
-                "geosite": "geolocation-!cn",
-                "server": "remote"
-            },
-             {
-                "geosite": "geolocation-!cn",             
-                "query_type": [
-                    "A",
-                    "AAAA"
-                ],
-                "server": "dns_fakeip"
-            }
-          ],
-           "fakeip": {
-           "enabled": true,
-           "inet4_range": "198.18.0.0/15",
-           "inet6_range": "fc00::/18"
-         },
-          "independent_cache": true,
-          "final": "remote"
-        },
-      "inbounds": [
-    {
-      "type": "tun",
-      "inet4_address": "172.19.0.1/30",
-      //"inet6_address": "fdfe:dcba:9876::1/126",
-      "auto_route": true,
-      "strict_route": true,
-      "stack": "mixed",
-      "sniff": true
-    }
-  ],
-  "experimental": {
-    "clash_api": {
-      "external_controller": "127.0.0.1:9090",
-      "external_ui": "ui",
-      "external_ui_download_url": "",
-      "external_ui_download_detour": "",
-      "secret": "",
-      "default_mode": "Rule",
-      "store_mode": true,
-      "store_selected": true,
-      "store_fakeip": true
-    }
-  },
-  "outbounds": [
-    {
-      "tag": "select",
-      "type": "selector",
-      "default": "auto",
-      "outbounds": [
-        "auto",
-        "vless-sb",
-        "vmess-sb",
-        "hy2-sb",
-        "tuic5-sb"
-      ]
-    },
-    {
-      "type": "vless",
-      "tag": "vless-sb",
-      "server": "89.213.182.72",
-      "server_port": 10086,
-      "uuid": "af5ca934-ab05-4f3a-a208-55247cfea1c6",
-      "flow": "xtls-rprx-vision",
-      "tls": {
-        "enabled": true,
-        "server_name": "www.yahoo.com",
-        "utls": {
-          "enabled": true,
-          "fingerprint": "chrome"
-        },
-      "reality": {
-          "enabled": true,
-          "public_key": "mWY9hW1JAEwTCbs1C8tYYIG5d98QYS3hqIGygsZTnVs",
-          "short_id": "76294d87"
-        }
-      }
-    },
-{
-            "server": "mieguo.16283684.xyz",
-            "server_port": 2000,
-            "tag": "vmess-sb",
-            "tls": {
-                "enabled": true,
-                "server_name": "mieguo.16283684.xyz",
-                "insecure": false,
-                "utls": {
-                    "enabled": true,
-                    "fingerprint": "chrome"
-                }
-            },
-            "transport": {
-                "headers": {
-                    "Host": [
-                        "mieguo.16283684.xyz"
-                    ]
-                },
-                "path": "af5ca934-ab05-4f3a-a208-55247cfea1c6-vm",
-                "type": "ws"
-            },
-            "type": "vmess",
-            "security": "auto",
-            "uuid": "af5ca934-ab05-4f3a-a208-55247cfea1c6"
-        },
-    {
-        "type": "hysteria2",
-        "tag": "hy2-sb",
-        "server": "mieguo.16283684.xyz",
-        "server_port": 48377,
-        "password": "af5ca934-ab05-4f3a-a208-55247cfea1c6",
-        "tls": {
-            "enabled": true,
-            "server_name": "mieguo.16283684.xyz",
-            "insecure": false,
-            "alpn": [
-                "h3"
-            ]
-        }
-    },
-        {
-            "type":"tuic",
-            "tag": "tuic5-sb",
-            "server": "mieguo.16283684.xyz",
-            "server_port": 10000,
-            "uuid": "af5ca934-ab05-4f3a-a208-55247cfea1c6",
-            "password": "af5ca934-ab05-4f3a-a208-55247cfea1c6",
-            "congestion_control": "bbr",
-            "udp_relay_mode": "native",
-            "udp_over_stream": false,
-            "zero_rtt_handshake": false,
-            "heartbeat": "10s",
-            "tls":{
-                "enabled": true,
-                "server_name": "mieguo.16283684.xyz",
-                "insecure": false,
-                "alpn": [
-                    "h3"
-                ]
-            }
-        },
-    {
-      "tag": "direct",
-      "type": "direct"
-    },
-    {
-      "tag": "block",
-      "type": "block"
-    },
-    {
-      "tag": "dns-out",
-      "type": "dns"
-    },
-    {
-      "tag": "auto",
-      "type": "urltest",
-      "outbounds": [
-        "vless-sb",
-        "vmess-sb",
-        "hy2-sb",
-        "tuic5-sb"
-      ],
-      "url": "https://cp.cloudflare.com/generate_204",
-      "interval": "1m",
-      "tolerance": 50,
-      "interrupt_exist_connections": false
-    }
-  ],
-  "route": {
-      "geoip": {
-      "download_url": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.db",
-      "download_detour": "select"
-    },
-    "geosite": {
-      "download_url": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.db",
-      "download_detour": "select"
-    },
-    "auto_detect_interface": true,
-    "final": "select",
-    "rules": [
-      {
-        "outbound": "dns-out",
-        "protocol": "dns"
-      },
-      {
-        "clash_mode": "Direct",
-        "outbound": "direct"
-      },
-      {
-        "clash_mode": "Global",
-        "outbound": "select"
-      },
-      {
-        "geosite": "cn",
-        "geoip": [
-          "cn",
-          "private"
-        ],
-        "outbound": "direct"
-      },
-      {
-        "geosite": "geolocation-!cn",
-        "outbound": "select"
-      }
-    ]
-  },
-    "ntp": {
-    "enabled": true,
-    "server": "time.apple.com",
-    "server_port": 123,
-    "interval": "30m",
-    "detour": "direct"
-  }
-}
+port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+unified-delay: true
+global-client-fingerprint: chrome
+ipv6: true
+dns:
+  enable: true
+  listen: :53
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver: 
+    - 223.5.5.5
+    - 8.8.8.8
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  fallback:
+    - https://1.0.0.1/dns-query
+    - tls://dns.google
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+
+proxies:        
+  - name: Reality-Brutal
+    type: vless
+    server: 89.213.182.72
+    port: 10086
+    uuid: d6297cca-451e-458e-850e-a455c6baab18
+    network: tcp
+    udp: true
+    tls: true
+    flow: 
+    servername: itunes.apple.com
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: qB2Cv_UUXoH_PjDd6i5wwppcMvr3JyHL0mYAMSA8SmI
+      short-id: 2eb906581ca49d89
+    smux:
+      enabled: true
+      protocol: h2mux
+      max-connections: 1
+      min-streams: 4
+      padding: true
+      brutal-opts:
+        enabled: true
+        up: 50
+        down: 100
+
+proxy-groups:
+  - name: 节点选择
+    type: select
+    proxies:
+      - 自动选择
+      - Reality-Brutal
+
+  - name: 自动选择
+    type: url-test #选出延迟最低的机场节点
+    proxies:
+      - Reality-Brutal
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+
+
+rules:
+    - GEOIP,LAN,DIRECT
+    - GEOIP,CN,DIRECT
+    - MATCH,节点选择
