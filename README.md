@@ -105,8 +105,8 @@
       "type": "vless",
       "tag": "vless-sb",
       "server": "89.213.182.72",
-      "server_port": 21349,
-      "uuid": "b282c791-077e-48b2-b820-66c601df52c0",
+      "server_port": 10086,
+      "uuid": "af5ca934-ab05-4f3a-a208-55247cfea1c6",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
@@ -117,18 +117,18 @@
         },
       "reality": {
           "enabled": true,
-          "public_key": "Rbew0Q3K0EX0p9MW4U_AEGTOV5HuqtxUed_WbyTW-iA",
-          "short_id": "456e9f5a"
+          "public_key": "mWY9hW1JAEwTCbs1C8tYYIG5d98QYS3hqIGygsZTnVs",
+          "short_id": "76294d87"
         }
       }
     },
 {
-            "server": "mieguo",
-            "server_port": 2053,
+            "server": "mieguo.16283684.xyz",
+            "server_port": 2000,
             "tag": "vmess-sb",
             "tls": {
                 "enabled": true,
-                "server_name": "mieguo",
+                "server_name": "mieguo.16283684.xyz",
                 "insecure": false,
                 "utls": {
                     "enabled": true,
@@ -138,22 +138,22 @@
             "transport": {
                 "headers": {
                     "Host": [
-                        "83684.xyz"
+                        "mieguo.16283684.xyz"
                     ]
                 },
-                "path": "b282c791-077e-48b2-b820-66c601df52c0-vm",
+                "path": "af5ca934-ab05-4f3a-a208-55247cfea1c6-vm",
                 "type": "ws"
             },
             "type": "vmess",
             "security": "auto",
-            "uuid": "b282c791-077e-48b2-b820-66c601df52c0"
+            "uuid": "af5ca934-ab05-4f3a-a208-55247cfea1c6"
         },
     {
         "type": "hysteria2",
         "tag": "hy2-sb",
         "server": "mieguo.16283684.xyz",
-        "server_port": 31749,
-        "password": "b282c791-077e-48b2-b820-66c601df52c0",
+        "server_port": 48377,
+        "password": "af5ca934-ab05-4f3a-a208-55247cfea1c6",
         "tls": {
             "enabled": true,
             "server_name": "mieguo.16283684.xyz",
@@ -167,9 +167,9 @@
             "type":"tuic",
             "tag": "tuic5-sb",
             "server": "mieguo.16283684.xyz",
-            "server_port": 6448,
-            "uuid": "b282c791-077e-48b2-b820-66c601df52c0",
-            "password": "b282c791-077e-48b2-b820-66c601df52c0",
+            "server_port": 10000,
+            "uuid": "af5ca934-ab05-4f3a-a208-55247cfea1c6",
+            "password": "af5ca934-ab05-4f3a-a208-55247cfea1c6",
             "congestion_control": "bbr",
             "udp_relay_mode": "native",
             "udp_over_stream": false,
@@ -201,6 +201,7 @@
       "type": "urltest",
       "outbounds": [
         "vless-sb",
+        "vmess-sb",
         "hy2-sb",
         "tuic5-sb"
       ],
