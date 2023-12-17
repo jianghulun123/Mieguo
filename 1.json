@@ -1,4 +1,96 @@
-{
-  "listen":  "socks://127.0.0.1:1080",
-  "proxy": "https://meijiji:YpIHiZa7+LGp@mieguovps.16283684.xyz:10086"
-}
+mixed-port: 10801
+allow-lan: true
+bind-address: "*"
+find-process-mode: strict
+mode: rule
+geodata-mode: true
+geox-url:
+  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb"
+log-level: info
+ipv6: true
+global-client-fingerprint: chrome
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - 0.0.0.0:53
+  auto-detect-interface: true
+  auto-route: true
+  mtu: 9000
+profile:
+  store-selected: false
+  store-fake-ip: true
+sniffer:
+  enable: true
+  override-destination: false
+  sniff:
+    TLS:
+      ports: [443, 8443]
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+dns:
+  enable: true
+  prefer-h3: true
+  listen: 0.0.0.0:53
+  ipv6: true
+  ipv6-timeout: 300
+  default-nameserver:
+    - 223.5.5.5
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  fallback:
+    - https://dns.google/dns-query
+    - https://1.1.1.1/dns-query
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    geosite:
+      - gfw
+    ipcidr:
+      - 240.0.0.0/4
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'
+  nameserver-policy:
+    "geosite:cn,private":
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    "geosite:category-ads-all": rcode://success
+proxies:
+  - name: shadowtls-5180
+    type: ss
+    server: 89.213.182.72
+    port: 10086
+    cipher: 2022-blake3-chacha20-poly1305
+    password: "5cLmuWgipVa72pOS7ZUKiQqFm4+zISiR08spMZmzS70="
+    plugin: shadow-tls
+    plugin-opts:
+      host: "nijigen-works.jp"
+      password: "T9kwBJzjntwMQbcL0hlcZ4Ir+hjHDnfQI+H/afA19ps="
+      version: 3
+
+proxy-groups:
+  - name: Proxy
+    type: select
+    proxies:
+      - shadowtls-5180
+      - auto
+  - name: auto
+    type: url-test
+    proxies:
+      - shadowtls-5180
+    url: "https://cp.cloudflare.com/generate_204"
+    interval: 300
+rules:
+  - GEOSITE,private,DIRECT
+  - GEOSITE,category-ads-all,REJECT
+  - GEOSITE,cn,DIRECT
+  - GEOIP,cn,DIRECT
+  - MATCH,Proxy
