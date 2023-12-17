@@ -4,6 +4,7 @@ mode: rule
 log-level: info
 unified-delay: true
 global-client-fingerprint: chrome
+ipv6: true
 dns:
   enable: true
   listen: :53
@@ -24,92 +25,50 @@ dns:
     geoip-code: CN
     ipcidr:
       - 240.0.0.0/4
-proxies:
-- name: vless-reality-vision节点               
-  type: vless
-  server: 89.213.182.72                           
-  port: 10086                                
-  uuid: af5ca934-ab05-4f3a-a208-55247cfea1c6   
-  network: tcp
-  udp: true
-  tls: true
-  flow: xtls-rprx-vision
-  servername: www.yahoo.com                 
-  reality-opts: 
-    public-key: mWY9hW1JAEwTCbs1C8tYYIG5d98QYS3hqIGygsZTnVs    
-    short-id: 76294d87                      
-  client-fingerprint: chrome                  
-- name: vmess-ws节点                         
-  type: vmess
-  server: mieguo.16283684.xyz                        
-  port: 2000                                     
-  uuid: af5ca934-ab05-4f3a-a208-55247cfea1c6       
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: true
-  network: ws
-  servername: mieguo.16283684.xyz                    
-  ws-opts:
-    path: "af5ca934-ab05-4f3a-a208-55247cfea1c6-vm"                             
-    headers:
-      Host: mieguo.16283684.xyz                     
-- name: hysteria2节点                            
-  type: hysteria2                                      
-  server: mieguo.16283684.xyz                               
-  port: 48377                                
-  password: af5ca934-ab05-4f3a-a208-55247cfea1c6                              
-  alpn:
-    - h3
-  sni: mieguo.16283684.xyz                               
-  skip-cert-verify: false
-  fast-open: true
-- name: tuic5节点                            
-  server: mieguo.16283684.xyz                      
-  port: 10000                                    
-  type: tuic
-  uuid: af5ca934-ab05-4f3a-a208-55247cfea1c6       
-  password: af5ca934-ab05-4f3a-a208-55247cfea1c6   
-  alpn: [h3]
-  disable-sni: true
-  reduce-rtt: true
-  udp-relay-mode: native
-  congestion-controller: bbr
-  sni: mieguo.16283684.xyz                                
-  skip-cert-verify: false  
+
+proxies:        
+  - name: Reality-Brutal
+    type: vless
+    server: 89.213.182.72
+    port: 10086
+    uuid: d6297cca-451e-458e-850e-a455c6baab18
+    network: tcp
+    udp: true
+    tls: true
+    flow: 
+    servername: itunes.apple.com
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: qB2Cv_UUXoH_PjDd6i5wwppcMvr3JyHL0mYAMSA8SmI
+      short-id: 2eb906581ca49d89
+    smux:
+      enabled: true
+      protocol: h2mux
+      max-connections: 1
+      min-streams: 4
+      padding: true
+      brutal-opts:
+        enabled: true
+        up: 50
+        down: 100
+
 proxy-groups:
-- name: 负载均衡
-  type: load-balance
-  url: https://cp.cloudflare.com/generate_204
-  interval: 300
-  strategy: round-robin
-  proxies:
-    - vless-reality-vision节点                              
-    - vmess-ws节点
-    - hysteria2节点
-    - tuic5节点
-- name: 自动选择
-  type: url-test
-  url: https://cp.cloudflare.com/generate_204
-  interval: 300
-  tolerance: 50
-  proxies:
-    - vless-reality-vision节点                              
-    - vmess-ws节点
-    - hysteria2节点
-    - tuic5节点
-    
-- name: 🌍选择代理节点
-  type: select
-  proxies:
-    - 负载均衡                                         
-    - 自动选择
-    - DIRECT
-    - vless-reality-vision节点                              
-    - vmess-ws节点
-    - hysteria2节点
-    - tuic5节点
+  - name: 节点选择
+    type: select
+    proxies:
+      - 自动选择
+      - Reality-Brutal
+
+  - name: 自动选择
+    type: url-test #选出延迟最低的机场节点
+    proxies:
+      - Reality-Brutal
+    url: "http://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 50
+
+
 rules:
-  - GEOIP,LAN,DIRECT
-  - GEOIP,CN,DIRECT
-  - MATCH,🌍选择代理节点
+    - GEOIP,LAN,DIRECT
+    - GEOIP,CN,DIRECT
+    - MATCH,节点选择
