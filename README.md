@@ -68,7 +68,7 @@
     {
       "type": "tun",
       "inet4_address": "172.19.0.1/30",
-      //"inet6_address": "fdfe:dcba:9876::1/126",
+      "inet6_address": "fdfe:dcba:9876::1/126",
       "auto_route": true,
       "strict_route": true,
       "stack": "mixed",
@@ -105,8 +105,8 @@
       "type": "vless",
       "tag": "vless-sb",
       "server": "89.213.182.72",
-      "server_port": 31742,
-      "uuid": "774fc6b5-fba5-47ed-928f-890454fdaad3",
+      "server_port": 21039,
+      "uuid": "28022370-bf18-4e91-821e-b1a1b2181255",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
@@ -117,14 +117,14 @@
         },
       "reality": {
           "enabled": true,
-          "public_key": "d_f0cP-BED4-s6-3otonNM9bjCWe2NhiYgjF-KVy4XA",
-          "short_id": "eaff5a16"
+          "public_key": "gLpnerHj3LDzu5NJrKCMckzWgkFMAkBwfYQiSQPVtwE",
+          "short_id": "5dde956b"
         }
       }
     },
 {
             "server": "mieguovp.16283684.xyz",
-            "server_port": 2096,
+            "server_port": 2087,
             "tag": "vmess-sb",
             "tls": {
                 "enabled": true,
@@ -141,19 +141,19 @@
                         "mieguovp.16283684.xyz"
                     ]
                 },
-                "path": "774fc6b5-fba5-47ed-928f-890454fdaad3-vm",
+                "path": "28022370-bf18-4e91-821e-b1a1b2181255-vm",
                 "type": "ws"
             },
             "type": "vmess",
             "security": "auto",
-            "uuid": "774fc6b5-fba5-47ed-928f-890454fdaad3"
+            "uuid": "28022370-bf18-4e91-821e-b1a1b2181255"
         },
     {
         "type": "hysteria2",
         "tag": "hy2-sb",
         "server": "mieguovp.16283684.xyz",
-        "server_port": 53224,
-        "password": "774fc6b5-fba5-47ed-928f-890454fdaad3",
+        "server_port": 13609,
+        "password": "28022370-bf18-4e91-821e-b1a1b2181255",
         "tls": {
             "enabled": true,
             "server_name": "mieguovp.16283684.xyz",
@@ -167,9 +167,9 @@
             "type":"tuic",
             "tag": "tuic5-sb",
             "server": "mieguovp.16283684.xyz",
-            "server_port": 3895,
-            "uuid": "774fc6b5-fba5-47ed-928f-890454fdaad3",
-            "password": "774fc6b5-fba5-47ed-928f-890454fdaad3",
+            "server_port": 53240,
+            "uuid": "28022370-bf18-4e91-821e-b1a1b2181255",
+            "password": "28022370-bf18-4e91-821e-b1a1b2181255",
             "congestion_control": "bbr",
             "udp_relay_mode": "native",
             "udp_over_stream": false,
