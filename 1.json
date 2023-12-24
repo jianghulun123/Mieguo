@@ -28,22 +28,22 @@ proxies:
 - name: vless-reality-vision节点               
   type: vless
   server: 89.213.182.72                           
-  port: 31742                                
-  uuid: 774fc6b5-fba5-47ed-928f-890454fdaad3   
+  port: 21039                                
+  uuid: 28022370-bf18-4e91-821e-b1a1b2181255   
   network: tcp
   udp: true
   tls: true
   flow: xtls-rprx-vision
   servername: www.yahoo.com                 
   reality-opts: 
-    public-key: d_f0cP-BED4-s6-3otonNM9bjCWe2NhiYgjF-KVy4XA    
-    short-id: eaff5a16                      
+    public-key: gLpnerHj3LDzu5NJrKCMckzWgkFMAkBwfYQiSQPVtwE    
+    short-id: 5dde956b                      
   client-fingerprint: chrome                  
 - name: vmess-ws节点                         
   type: vmess
   server: mieguovp.16283684.xyz                        
-  port: 2096                                     
-  uuid: 774fc6b5-fba5-47ed-928f-890454fdaad3       
+  port: 2087                                     
+  uuid: 28022370-bf18-4e91-821e-b1a1b2181255       
   alterId: 0
   cipher: auto
   udp: true
@@ -51,14 +51,14 @@ proxies:
   network: ws
   servername: mieguovp.16283684.xyz                    
   ws-opts:
-    path: "774fc6b5-fba5-47ed-928f-890454fdaad3-vm"                             
+    path: "28022370-bf18-4e91-821e-b1a1b2181255-vm"                             
     headers:
       Host: mieguovp.16283684.xyz                     
 - name: hysteria2节点                            
   type: hysteria2                                      
   server: mieguovp.16283684.xyz                               
-  port: 53224                                
-  password: 774fc6b5-fba5-47ed-928f-890454fdaad3                              
+  port: 13609                                
+  password: 28022370-bf18-4e91-821e-b1a1b2181255                              
   alpn:
     - h3
   sni: mieguovp.16283684.xyz                               
@@ -66,10 +66,10 @@ proxies:
   fast-open: true
 - name: tuic5节点                            
   server: mieguovp.16283684.xyz                      
-  port: 3895                                    
+  port: 53240                                    
   type: tuic
-  uuid: 774fc6b5-fba5-47ed-928f-890454fdaad3       
-  password: 774fc6b5-fba5-47ed-928f-890454fdaad3   
+  uuid: 28022370-bf18-4e91-821e-b1a1b2181255       
+  password: 28022370-bf18-4e91-821e-b1a1b2181255   
   alpn: [h3]
   disable-sni: true
   reduce-rtt: true
