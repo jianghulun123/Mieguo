@@ -1,1 +1,115 @@
-dm1lc3M6Ly9leUpoWkdRaU9pSjNkM2N1ZG1sellTNWpiMjBpTENKaGFXUWlPaUl3SWl3aWFHOXpkQ0k2SW1OdmJXMWxiblJoY25rdGJXRnVZV2RsY25NdFptbHVaSE10WlhoMFpYSnVZV3d1ZEhKNVkyeHZkV1JtYkdGeVpTNWpiMjBpTENKcFpDSTZJakk0TURJeU16Y3dMV0ptTVRndE5HVTVNUzA0TWpGbExXSXhZVEZpTWpFNE1USTFOU0lzSW01bGRDSTZJbmR6SWl3aWNHRjBhQ0k2SWpJNE1ESXlNemN3TFdKbU1UZ3ROR1U1TVMwNE1qRmxMV0l4WVRGaU1qRTRNVEkxTlMxMmJTSXNJbkJ2Y25RaU9pSTBORE1pTENKd2N5STZJbmxuYTJ0ckxYWnRMV0Z5WjI4aUxDSnpZM2tpT2lKaGRYUnZJaXdpYzI1cElqb2lZMjl0YldWdWRHRnllUzF0WVc1aFoyVnljeTFtYVc1a2N5MWxlSFJsY201aGJDNTBjbmxqYkc5MVpHWnNZWEpsTG1OdmJTSXNJblJzY3lJNkluUnNjeUlzSW5SNWNHVWlPaUp1YjI1bElpd2lkaUk2SWpJaWZRPT0=
+port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+unified-delay: true
+global-client-fingerprint: chrome
+dns:
+  enable: true
+  listen: :53
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver: 
+    - 223.5.5.5
+    - 8.8.8.8
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  fallback:
+    - https://1.0.0.1/dns-query
+    - tls://dns.google
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+proxies:
+- name: vless-reality-vision节点               
+  type: vless
+  server: 89.213.182.72                           
+  port: 21039                                
+  uuid: 28022370-bf18-4e91-821e-b1a1b2181255   
+  network: tcp
+  udp: true
+  tls: true
+  flow: xtls-rprx-vision
+  servername: www.yahoo.com                 
+  reality-opts: 
+    public-key: gLpnerHj3LDzu5NJrKCMckzWgkFMAkBwfYQiSQPVtwE    
+    short-id: 5dde956b                      
+  client-fingerprint: chrome                  
+- name: vmess-ws节点                         
+  type: vmess
+  server: 89.213.182.72                        
+  port: 2087                                     
+  uuid: 28022370-bf18-4e91-821e-b1a1b2181255       
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: false
+  network: ws
+  servername: mieguovp.16283684.xyz                    
+  ws-opts:
+    path: "28022370-bf18-4e91-821e-b1a1b2181255-vm"                             
+    headers:
+      Host: mieguovp.16283684.xyz                     
+- name: hysteria2节点                            
+  type: hysteria2                                      
+  server: mieguovp.16283684.xyz                               
+  port: 13609                                
+  password: 28022370-bf18-4e91-821e-b1a1b2181255                              
+  alpn:
+    - h3
+  sni: mieguovp.16283684.xyz                               
+  skip-cert-verify: false
+  fast-open: true
+- name: tuic5节点                            
+  server: mieguovp.16283684.xyz                      
+  port: 53240                                    
+  type: tuic
+  uuid: 28022370-bf18-4e91-821e-b1a1b2181255       
+  password: 28022370-bf18-4e91-821e-b1a1b2181255   
+  alpn: [h3]
+  disable-sni: true
+  reduce-rtt: true
+  udp-relay-mode: native
+  congestion-controller: bbr
+  sni: mieguovp.16283684.xyz                                
+  skip-cert-verify: false  
+proxy-groups:
+- name: 负载均衡
+  type: load-balance
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  strategy: round-robin
+  proxies:
+    - vless-reality-vision节点                              
+    - vmess-ws节点
+    - hysteria2节点
+    - tuic5节点
+- name: 自动选择
+  type: url-test
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+    - vless-reality-vision节点                              
+    - vmess-ws节点
+    - hysteria2节点
+    - tuic5节点
+    
+- name: 🌍选择代理节点
+  type: select
+  proxies:
+    - 负载均衡                                         
+    - 自动选择
+    - DIRECT
+    - vless-reality-vision节点                              
+    - vmess-ws节点
+    - hysteria2节点
+    - tuic5节点
+rules:
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,🌍选择代理节点
