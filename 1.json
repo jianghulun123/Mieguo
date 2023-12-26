@@ -25,35 +25,6 @@ dns:
     ipcidr:
       - 240.0.0.0/4
 proxies:
-- name: vless-reality-vision节点               
-  type: vless
-  server: 89.213.182.72                           
-  port: 21039                                
-  uuid: 28022370-bf18-4e91-821e-b1a1b2181255   
-  network: tcp
-  udp: true
-  tls: true
-  flow: xtls-rprx-vision
-  servername: www.yahoo.com                 
-  reality-opts: 
-    public-key: gLpnerHj3LDzu5NJrKCMckzWgkFMAkBwfYQiSQPVtwE    
-    short-id: 5dde956b                      
-  client-fingerprint: chrome                  
-- name: vmess-ws节点                         
-  type: vmess
-  server: 89.213.182.72                        
-  port: 2087                                     
-  uuid: 28022370-bf18-4e91-821e-b1a1b2181255       
-  alterId: 0
-  cipher: auto
-  udp: true
-  tls: false
-  network: ws
-  servername: mieguovp.16283684.xyz                    
-  ws-opts:
-    path: "28022370-bf18-4e91-821e-b1a1b2181255-vm"                             
-    headers:
-      Host: mieguovp.16283684.xyz                     
 - name: hysteria2节点                            
   type: hysteria2                                      
   server: mieguovp.16283684.xyz                               
@@ -63,20 +34,7 @@ proxies:
     - h3
   sni: mieguovp.16283684.xyz                               
   skip-cert-verify: false
-  fast-open: true
-- name: tuic5节点                            
-  server: mieguovp.16283684.xyz                      
-  port: 53240                                    
-  type: tuic
-  uuid: 28022370-bf18-4e91-821e-b1a1b2181255       
-  password: 28022370-bf18-4e91-821e-b1a1b2181255   
-  alpn: [h3]
-  disable-sni: true
-  reduce-rtt: true
-  udp-relay-mode: native
-  congestion-controller: bbr
-  sni: mieguovp.16283684.xyz                                
-  skip-cert-verify: false  
+  fast-open: true  
 proxy-groups:
 - name: 负载均衡
   type: load-balance
@@ -84,31 +42,21 @@ proxy-groups:
   interval: 300
   strategy: round-robin
   proxies:
-    - vless-reality-vision节点                              
-    - vmess-ws节点
     - hysteria2节点
-    - tuic5节点
 - name: 自动选择
   type: url-test
   url: https://cp.cloudflare.com/generate_204
   interval: 300
   tolerance: 50
   proxies:
-    - vless-reality-vision节点                              
-    - vmess-ws节点
     - hysteria2节点
-    - tuic5节点
-    
 - name: 🌍选择代理节点
   type: select
   proxies:
     - 负载均衡                                         
     - 自动选择
     - DIRECT
-    - vless-reality-vision节点                              
-    - vmess-ws节点
     - hysteria2节点
-    - tuic5节点
 rules:
   - GEOIP,LAN,DIRECT
   - GEOIP,CN,DIRECT
