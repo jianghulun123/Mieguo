@@ -36,7 +36,7 @@ proxies:
   skip-cert-verify: false
   fast-open: true
   up: 30 mbps
-  down: 100 mbps
+  down: 300 mbps
 proxy-groups:
 - name: 负载均衡
   type: load-balance
