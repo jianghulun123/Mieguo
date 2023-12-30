@@ -28,7 +28,7 @@ proxies:
 - name: hysteria2节点                            
   type: hysteria2                                      
   server: mie.16283684.xyz                               
-  port: 14428,10000:20000                                
+  port: 14428,10000-20000                                
   password: 7e28b928-f066-4ca5-966d-e613e9c21f05                              
   alpn:
     - h3
