@@ -133,7 +133,7 @@
       "server_port": 14428,
       "password": "7e28b928-f066-4ca5-966d-e613e9c21f05",
       "up_mbps": 10,
-      "down_mbps": 100,
+      "down_mbps": 300,
       "tls": {
         "enabled": true,
         "server_name": "mie.16283684.xyz",
