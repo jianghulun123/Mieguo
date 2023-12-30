@@ -24,11 +24,40 @@ dns:
     geoip-code: CN
     ipcidr:
       - 240.0.0.0/4
-proxies:                                     
+proxies:
+- name: vless-reality-vision节点               
+  type: vless
+  server: 0.0.0.0                          
+  port: 666                                
+  uuid: 7e28b928-f066-4ca5-966d-e613e9c21f05   
+  network: tcp
+  udp: true
+  tls: true
+  flow: xtls-rprx-vision
+  servername: www.yahoo.com                 
+  reality-opts: 
+    public-key: MawYwWQJIxRmqRz7sPG36hV0R3PYT-qxqZ7IKoGjOEc    
+    short-id: c198bb9b                      
+  client-fingerprint: chrome                  
+- name: vmess-ws节点                         
+  type: vmess
+  server: 0.0.0.0                        
+  port: 666                                     
+  uuid: 7e28b928-f066-4ca5-966d-e613e9c21f05       
+  alterId: 0
+  cipher: auto
+  udp: true
+  tls: false
+  network: ws
+  servername: baidu.com                    
+  ws-opts:
+    path: "7e28b928-f066-4ca5-966d-e613e9c21f05-vm"                             
+    headers:
+      Host: mie.16283684.xyz                     
 - name: hysteria2节点                            
   type: hysteria2                                      
   server: mie.16283684.xyz                               
-  port: 14428,10000-20000                                
+  port: 14428                                
   password: 7e28b928-f066-4ca5-966d-e613e9c21f05                              
   alpn:
     - h3
@@ -37,28 +66,51 @@ proxies:
   fast-open: true
   up: 30 mbps
   down: 300 mbps
+- name: tuic5节点                            
+  server: 0.0.0.0                      
+  port: 666                                   
+  type: tuic
+  uuid: 7e28b928-f066-4ca5-966d-e613e9c21f05       
+  password: 7e28b928-f066-4ca5-966d-e613e9c21f05   
+  alpn: [h3]
+  disable-sni: true
+  reduce-rtt: true
+  udp-relay-mode: native
+  congestion-controller: bbr
+  sni: baidu.com                                
+  skip-cert-verify: false  
 proxy-groups:
 - name: 负载均衡
   type: load-balance
   url: https://cp.cloudflare.com/generate_204
   interval: 300
   strategy: round-robin
-  proxies:                              
+  proxies:
+    - vless-reality-vision节点                              
+    - vmess-ws节点
     - hysteria2节点
+    - tuic5节点
 - name: 自动选择
   type: url-test
   url: https://cp.cloudflare.com/generate_204
   interval: 300
   tolerance: 50
-  proxies:                              
-    - hysteria2节点    
+  proxies:
+    - vless-reality-vision节点                              
+    - vmess-ws节点
+    - hysteria2节点
+    - tuic5节点
+    
 - name: 🌍选择代理节点
   type: select
   proxies:
     - 负载均衡                                         
     - 自动选择
-    - DIRECT                              
+    - DIRECT
+    - vless-reality-vision节点                              
+    - vmess-ws节点
     - hysteria2节点
+    - tuic5节点
 rules:
   - GEOIP,LAN,DIRECT
   - GEOIP,CN,DIRECT
