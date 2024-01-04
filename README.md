@@ -154,12 +154,12 @@
       "tls": {
         "enabled": true,
         "insecure": true,
-        "server_name": "headed-declare-bible-gear.trycloudflare.com"
+        "server_name": "kit-don-letters-increase.trycloudflare.com"
       },
       "transport": {
         "type": "ws",
         "headers": {
-          "Host": "headed-declare-bible-gear.trycloudflare.com"
+          "Host": "kit-don-letters-increase.trycloudflare.com"
         },
         "path": "12c99a8d-d97b-4667-85b8-6fd139c0ce19-vm"
       }
