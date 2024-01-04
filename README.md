@@ -132,8 +132,8 @@
       "server": "mie.16283684.xyz",
       "server_port": 14428,
       "password": "7e28b928-f066-4ca5-966d-e613e9c21f05",
-      "up_mbps": 10,
-      "down_mbps": 300,
+      "up_mbps": 50,
+      "down_mbps": 100,
       "tls": {
         "enabled": true,
         "server_name": "mie.16283684.xyz",
@@ -154,12 +154,12 @@
       "tls": {
         "enabled": true,
         "insecure": true,
-        "server_name": "hobby-scored-tampa-heel.trycloudflare.com"
+        "server_name": "headed-declare-bible-gear.trycloudflare.com"
       },
       "transport": {
         "type": "ws",
         "headers": {
-          "Host": "hobby-scored-tampa-heel.trycloudflare.com"
+          "Host": "headed-declare-bible-gear.trycloudflare.com"
         },
         "path": "12c99a8d-d97b-4667-85b8-6fd139c0ce19-vm"
       }
