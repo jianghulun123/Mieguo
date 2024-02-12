@@ -1,1 +1,128 @@
-anVpY2l0eTovLzhiMThmYzg5LTBjMTYtNDMxNi1iOTI2LTNiOTIxMjUzZTAxZDoxNWUyMjZjZEA0NS4xMjUuMTIuOTQ6NDMwNTc/Y29uZ2VzdGlvbl9jb250cm9sPWJiciZzbmk9bWMuMTYyODM2ODQueHl6Cmh5MjovL2RkY2JlMWFlLTM1MmUtNDY3OS1hYWIxLTA1N2FlMjFlNmM5NUBbMjYwNDphYmMwOjEyMzQ6MjI6OjIwZWY6ZGQ3NV06NDMxMjI/bXBvcnQ9NDMxMjIsMTAwMDAtMjAwMDAmaW5zZWN1cmU9MSZzbmk9d3d3LmJpbmcuY29tI1VTLXplcm8tSHkyCmh5MjovL2UyMjljYTFhLTQzMzItNGZmYS04ODk3LTQyNzMwZjkxM2M1ZkBbMjQwMDo4YTIwOjExMjoxOjoyNzhdOjYwODM4P21wb3J0PTYwODM4Jmluc2VjdXJlPTEmc25pPXd3dy5iaW5nLmNvbSNISy1oeTItJUU1JTlFJTgzJUU1JTlDJUJFCmh5MjovLzU4MmI5YWRlQFsyNDAwOmM2MjA6MTA6OjU3OWM6OGI1Nl06Mzk4MDU/bXBvcnQ9Mzk4MDUsMjAwMDAtMzAwMDAmaW5zZWN1cmU9MSZzbmk9d3d3LmJpbmcuY29tI0hLLUh5c3RlcmlhMi0lRTclQTUlOUUlRTklQjglQTEKaHkyOi8vZjVhY2VkYjlAWzJhMGU6OGYwMjpmMDRmOjEwMjc6OjhhMTE6ODM2OV06NDYxNDE/bXBvcnQ9NDYxNDEsMTAwMDAtMjAwMDAmaW5zZWN1cmU9MSZzbmk9d3d3LmJpbmcuY29tI1JPLSVFNyVCRCU5NyVFOSVBOSVBQyVFNSVCMCVCQyVFNCVCQSU5QS1IeXN0ZXJpYTIKaHkyOi8vMTRlNTQxYjhAbWllLjE2MjgzNjg0Lnh5ejo1NjM0MD9tcG9ydD01NjM0MCwxMDAwMC0yMDAwMCZzbmk9bWllLjE2MjgzNjg0Lnh5eiNVUy00ODM3LWh5MgoKaHkyOi8vNzFjZmZiNWNAWzI0MDA6OGEyMDoxMTI6MTo6NTNiXTo0OTkwP21wb3J0PTQ5OTAsMTAwMDAtMjAwMDAmaW5zZWN1cmU9MSZzbmk9d3d3LmJpbmcuY29tI0tQLUh5c3RlcmlhMg==
+port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+unified-delay: true
+global-client-fingerprint: chrome
+dns:
+  enable: true
+  listen: :53
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver:
+    - 223.5.5.5
+    - 8.8.8.8
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  fallback:
+    - https://1.0.0.1/dns-query
+    - tls://dns.google
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+proxies:
+- name: US-zero-HY2
+  type: hysteria2
+  server: [2604:abc0:1234:22::20ef:dd75]
+  port: 43122,10000-20000
+  password: ddcbe1ae-352e-4679-aab1-057ae21e6c95
+  alpn:
+    - h3
+  sni: www.bing.com
+  skip-cert-verify: true
+  fast-open: true
+- name: HK-Hysteria2(1)
+  type: hysteria2
+  server: [2400:8a20:112:1::278]
+  port: 60838
+  password: e229ca1a-4332-4ffa-8897-42730f913c5f
+  alpn:
+    - h3
+  sni: www.bing.com
+  skip-cert-verify: true
+  fast-open: true
+- name: HK-Hysteria2(2)
+  type: hysteria2
+  server: [2400:c620:0010:0000:0000:0000:579c:8b56]
+  port: 39805,20000-30000
+  password: 582b9ade
+  alpn:
+    - h3
+  sni: www.bing.com
+  skip-cert-verify: true
+  fast-open: true
+- name: US-Hysteria2(3)
+  type: hysteria2
+  server: mie.16283684.xyz
+  port: 56340,10000-20000
+  password: 582b9ade
+  alpn:
+    - h3
+  sni: mie.16283684.xyz
+  skip-cert-verify: false
+  fast-open: true
+- name: KP-Hysteria2
+  type: hysteria2
+  server: [2400:8a20:112:1::53b]
+  port: 4990,10000-20000
+  password: 71cffb5c
+  alpn:
+    - h3
+  sni: www.bing.com
+  skip-cert-verify: true
+  fast-open: true
+- name: RO-Hysteria2
+  type: hysteria2
+  server: [2a0e:8f02:f04f:1027:0000:0000:7876:729f]
+  port: 60343
+  password: 600d06af
+  alpn:
+    - h3
+  sni: www.bing.com
+  skip-cert-verify: true
+  fast-open: true
+proxy-groups:
+- name: 负 载 均 衡
+  type: load-balance
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  strategy: round-robin
+  proxies:
+    - US-zero-HY2
+    - HK-Hysteria2(1)
+    - HK-Hysteria2(2)
+    - US-Hysteria2(3)
+	  - KP-Hysteria2
+	  - RO-Hysteria2
+- name: 自 动 选 择
+  type: url-test
+  url: https://cp.cloudflare.com/generate_204
+  interval: 300
+  tolerance: 50
+  proxies:
+    - US-zero-HY2
+    - HK-Hysteria2(1)
+    - HK-Hysteria2(2)
+    - US-Hysteria2(3)
+	  - KP-Hysteria2
+	  - RO-Hysteria2
+- name: 🌍选 择 代 理 节 点
+  type: select
+  proxies:
+    - 负 载 均 衡
+    - 自 动 选 择
+    - DIRECT
+    - US-zero-HY2
+    - HK-Hysteria2(1)
+    - HK-Hysteria2(2)
+    - US-Hysteria2(3)
+	  - KP-Hysteria2
+	  - RO-Hysteria2
+rules:
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,🌍选 择 代 理 节 点
