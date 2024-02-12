@@ -96,8 +96,8 @@ proxy-groups:
     - HK-Hysteria2(1)
     - HK-Hysteria2(2)
     - US-Hysteria2(3)
-	  - KP-Hysteria2
-	  - RO-Hysteria2
+	- KP-Hysteria2
+	- RO-Hysteria2
 - name: 自 动 选 择
   type: url-test
   url: https://cp.cloudflare.com/generate_204
@@ -108,8 +108,8 @@ proxy-groups:
     - HK-Hysteria2(1)
     - HK-Hysteria2(2)
     - US-Hysteria2(3)
-	  - KP-Hysteria2
-	  - RO-Hysteria2
+	- KP-Hysteria2
+	- RO-Hysteria2
 - name: 🌍选 择 代 理 节 点
   type: select
   proxies:
@@ -120,8 +120,8 @@ proxy-groups:
     - HK-Hysteria2(1)
     - HK-Hysteria2(2)
     - US-Hysteria2(3)
-	  - KP-Hysteria2
-	  - RO-Hysteria2
+	- KP-Hysteria2
+	- RO-Hysteria2
 rules:
   - GEOIP,LAN,DIRECT
   - GEOIP,CN,DIRECT
