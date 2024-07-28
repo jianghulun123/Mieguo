@@ -9,15 +9,15 @@ YELLOW="\033[33m"
 PLAIN="\033[0m"
 
 red(){
-    echo -e "\033[31m\033[01m$1\033[0m"
+    echo -e "$RED$1$PLAIN"
 }
 
 green(){
-    echo -e "\033[32m\033[01m$1\033[0m"
+    echo -e "$GREEN$1$PLAIN"
 }
 
 yellow(){
-    echo -e "\033[33m\033[01m$1\033[0m"
+    echo -e "$YELLOW$1$PLAIN"
 }
 
 # System detection and package management commands
@@ -62,16 +62,14 @@ inst_cert(){
     echo ""
     read -rp "Enter your choice [1-3]: " certInput
     if [[ $certInput == 2 ]]; then
-        cert_path="/etc/xray/cert.crt"
-        key_path="/etc/xray/private.key"
+        cert_path="/etc/xray/cert/cert.crt"
+        key_path="/etc/xray/cert/private.key"
 
-        chmod -R 777 /etc/xray
+        mkdir -p /etc/xray/cert
+        chmod -R 777 /etc/xray/cert
         
-        chmod +rw /etc/xray/cert.crt
-        chmod +rw /etc/xray/private.key
-
-        if [[ -f /etc/xray/cert.crt && -f /etc/xray/private.key ]] && [[ -s /etc/xray/cert.crt && -s /etc/xray/private.key ]] && [[ -f /etc/xray/ca.log ]]; then
-            domain=$(cat /etc/xray/ca.log)
+        if [[ -f /etc/xray/cert/cert.crt && -f /etc/xray/cert/private.key ]] && [[ -s /etc/xray/cert/cert.crt && -s /etc/xray/cert/private.key ]] && [[ -f /etc/xray/cert/ca.log ]]; then
+            domain=$(cat /etc/xray/cert/ca.log)
             green "Detected existing certificate for domain: $domain"
             hy_domain=$domain
         else
@@ -115,14 +113,14 @@ inst_cert(){
                 else
                     bash ~/.acme.sh/acme.sh --issue -d ${domain} --standalone -k ec-256 --insecure
                 fi
-                bash ~/.acme.sh/acme.sh --install-cert -d ${domain} --key-file /etc/xray/private.key --fullchain-file /etc/xray/cert.crt --ecc
-                if [[ -f /etc/xray/cert.crt && -f /etc/xray/private.key ]] && [[ -s /etc/xray/cert.crt && -s /etc/xray/private.key ]]; then
-                    echo $domain > /etc/xray/ca.log
+                bash ~/.acme.sh/acme.sh --install-cert -d ${domain} --key-file /etc/xray/cert/private.key --fullchain-file /etc/xray/cert/cert.crt --ecc
+                if [[ -f /etc/xray/cert/cert.crt && -f /etc/xray/cert/private.key ]] && [[ -s /etc/xray/cert/cert.crt && -s /etc/xray/cert/private.key ]]; then
+                    echo $domain > /etc/xray/cert/ca.log
                     sed -i '/--cron/d' /etc/crontab >/dev/null 2>&1
                     echo "0 0 * * * root bash /root/.acme.sh/acme.sh --cron -f >/dev/null 2>&1" >> /etc/crontab
-                    green "Certificate obtained successfully! The certificate (cert.crt) and private key (private.key) files are saved in the /etc/xray folder"
-                    yellow "Certificate crt file path: /etc/xray/cert.crt"
-                    yellow "Private key file path: /etc/xray/private.key"
+                    green "Certificate obtained successfully! The certificate (cert.crt) and private key (private.key) files are saved in the /etc/xray/cert folder"
+                    yellow "Certificate crt file path: /etc/xray/cert/cert.crt"
+                    yellow "Private key file path: /etc/xray/cert/private.key"
                     hy_domain=$domain
                 fi
             else
@@ -146,47 +144,39 @@ inst_cert(){
         chmod +rw $cert_path
         chmod +rw $key_path
     else
-        green "Using a self-signed certificate for Xray"
+        green "Using a self-signed certificate for Xray node"
 
-        cert_path="/etc/xray/cert.crt"
-        key_path="/etc/xray/private.key"
-        openssl ecparam -genkey -name prime256v1 -out /etc/xray/private.key
-        openssl req -new -x509 -days 36500 -key /etc/xray/private.key -out /etc/xray/cert.crt -subj "/CN=www.bing.com/O=bing/OU=bing/C=US/ST=bing/L=bing"
+        cert_path="/etc/xray/cert/cert.crt"
+        key_path="/etc/xray/cert/private.key"
+        mkdir -p /etc/xray/cert
+        openssl ecparam -genkey -name prime256v1 -out /etc/xray/cert/private.key
+        openssl req -new -x509 -days 36500 -key /etc/xray/cert/private.key -out /etc/xray/cert/cert.crt -subj "/CN=www.bing.com"
+        chmod 777 /etc/xray/cert/cert.crt
+        chmod 777 /etc/xray/cert/private.key
         hy_domain="www.bing.com"
     fi
 }
 
-# Install Xray
+# 安装 Xray
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
 
-# Confirm installation success
+# 确认安装完成
 if [ $? -ne 0 ]; then
-    echo "Xray installation failed."
+    red "Xray 安装失败。"
     exit 1
 fi
 
-# Prompt for domain input
-read -p "Enter your domain: " DOMAIN
-
-# Verify domain binding to local IP
 realip
-DOMAIN_IP=$(ping -c 1 $DOMAIN | grep PING | awk -F'[()]' '{print $2}')
 
-if [ "$ip" != "$DOMAIN_IP" ]; then
-    echo "Domain not bound to local IP."
-    exit 1
-fi
-
-# Install and configure certificate
 inst_cert
 
-# Generate UUID
-UUID=$(uuidgen)
+# 生成 UUID
+UUID=$(/usr/local/bin/xray uuid)
 
-# Generate random path
+# 生成随机 path 路径
 PATH=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
 
-# Generate Xray configuration file
+# 生成 Xray 配置文件
 CONFIG_PATH="/usr/local/etc/xray/config.json"
 cat > $CONFIG_PATH <<EOF
 {
@@ -216,7 +206,7 @@ cat > $CONFIG_PATH <<EOF
                 "security": "tls",
                 "splithttpSettings": {
                     "path": "/$PATH",
-                    "host": "$DOMAIN"
+                    "host": "$hy_domain"
                 },
                 "tlsSettings": {
                     "rejectUnknownSni": true,
@@ -244,11 +234,11 @@ cat > $CONFIG_PATH <<EOF
 }
 EOF
 
-# Restart Xray service
+# 重启 Xray 服务
 systemctl start xray
 
-# Display configuration information
-echo "Xray configuration has been generated and the service has been started."
-echo "UUID: $UUID"
-echo "Path: /$PATH"
-echo "Port: 443"
+# 显示配置信息
+green "Xray 配置已生成并服务已启动。"
+green "UUID: $UUID"
+green "Path: /$PATH"
+green "Port: 443"
