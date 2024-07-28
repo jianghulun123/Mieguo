@@ -56,12 +56,22 @@ realip(){
 inst_cert(){
     green "Choose your certificate option:"
     echo ""
-    echo -e " ${GREEN}1.${PLAIN} Self-signed certificate ${YELLOW}(default)${PLAIN}"
-    echo -e " ${GREEN}2.${PLAIN} Automatic certificate via Acme script"
-    echo -e " ${GREEN}3.${PLAIN} Custom certificate path"
+    echo -e " ${GREEN}1.${PLAIN} Automatic certificate via Acme script ${YELLOW}(default)${PLAIN}"
+    echo -e " ${GREEN}2.${PLAIN} Custom certificate path"
     echo ""
-    read -rp "Enter your choice [1-3]: " certInput
+    read -rp "Enter your choice [1-2]: " certInput
     if [[ $certInput == 2 ]]; then
+        read -p "Enter the path of the public key file (crt): " cert_path
+        yellow "Public key file path: $cert_path"
+        read -p "Enter the path of the private key file (key): " key_path
+        yellow "Private key file path: $key_path"
+        read -p "Enter the certificate domain: " domain
+        yellow "Certificate domain: $domain"
+        hy_domain=$domain
+
+        chmod +rw $cert_path
+        chmod +rw $key_path
+    else
         cert_path="/etc/xray/cert/cert.crt"
         key_path="/etc/xray/cert/private.key"
 
@@ -132,28 +142,6 @@ inst_cert(){
                 exit 1
             fi
         fi
-    elif [[ $certInput == 3 ]]; then
-        read -p "Enter the path of the public key file (crt): " cert_path
-        yellow "Public key file path: $cert_path"
-        read -p "Enter the path of the private key file (key): " key_path
-        yellow "Private key file path: $key_path"
-        read -p "Enter the certificate domain: " domain
-        yellow "Certificate domain: $domain"
-        hy_domain=$domain
-
-        chmod +rw $cert_path
-        chmod +rw $key_path
-    else
-        green "Using a self-signed certificate for Xray node"
-
-        cert_path="/etc/xray/cert/cert.crt"
-        key_path="/etc/xray/cert/private.key"
-        mkdir -p /etc/xray/cert
-        openssl ecparam -genkey -name prime256v1 -out /etc/xray/cert/private.key
-        openssl req -new -x509 -days 36500 -key /etc/xray/cert/private.key -out /etc/xray/cert/cert.crt -subj "/CN=www.bing.com"
-        chmod 777 /etc/xray/cert/cert.crt
-        chmod 777 /etc/xray/cert/private.key
-        hy_domain="www.bing.com"
     fi
 }
 
@@ -235,7 +223,7 @@ cat > $CONFIG_PATH <<EOF
 EOF
 
 # 重启 Xray 服务
-systemctl start xray
+sudo systemctl restart xray
 
 # 显示配置信息
 green "Xray 配置已生成并服务已启动。"
