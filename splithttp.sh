@@ -27,17 +27,20 @@ wget -O - https://get.acme.sh | sh
 # 确保 .bashrc 被加载
 source ~/.bashrc
 
+# 确保加载 acme.sh 环境变量
+source ~/.acme.sh/acme.sh.env
+
 # 升级 acme.sh 并启用自动升级
-acme.sh --upgrade --auto-upgrade
+~/.acme.sh/acme.sh --upgrade --auto-upgrade
 
 # 申请证书
-acme.sh --set-default-ca --server letsencrypt
-acme.sh --issue -d $DOMAIN -w /home/vpsadmin/www/webpage --keylength ec-256 --force
+~/.acme.sh/acme.sh --set-default-ca --server letsencrypt
+~/.acme.sh/acme.sh --issue -d $DOMAIN -w /home/vpsadmin/www/webpage --keylength ec-256 --force
 
 # 安装证书
 CERT_PATH="/etc/xray/cert"
 mkdir -p $CERT_PATH
-acme.sh --installcert -d $DOMAIN --cert-file $CERT_PATH/cert.crt --key-file $CERT_PATH/cert.key --fullchain-file $CERT_PATH/fullchain.crt --ecc
+~/.acme.sh/acme.sh --installcert -d $DOMAIN --cert-file $CERT_PATH/cert.crt --key-file $CERT_PATH/cert.key --fullchain-file $CERT_PATH/fullchain.crt --ecc
 
 # 检查证书安装是否成功
 if [ $? -ne 0 ]; then
