@@ -1,24 +1,56 @@
 #!/bin/bash
 #
-# Automatically save all Docker images as tar files and store them in /root/dcc directory.
-# This script assumes Docker is installed and configured properly.
+# 备份所有Docker镜像和挂载卷，并打包成一个压缩文件
 #
 
-# Directory to store tar files
-save_dir="/root/dcc"
+# 定义备份目录
+backup_dir="/root/dcc"
+volumes_backup_dir="$backup_dir/volumes"
+images_backup_dir="$backup_dir/images"
+metadata_file="$backup_dir/volumes_metadata.json"
+final_backup_file="/root/docker_backup_$(date +%F_%T).tar.gz"
 
-# Ensure the save directory exists
-mkdir -p "$save_dir"
+# 确保备份目录存在
+mkdir -p "$volumes_backup_dir"
+mkdir -p "$images_backup_dir"
 
-# Get a list of all Docker images
+# 备份所有Docker镜像
 images=$(docker images --format "{{.Repository}}:{{.Tag}}")
-
-# Loop through each image and save it as a tar file
 for image in $images; do
-    # Replace '/' and ':' in image name to generate a valid filename
     tar_filename=$(echo "$image" | tr '/:' '_').tar
     echo "Saving $image as $tar_filename"
-    docker save -o "$save_dir/$tar_filename" "$image"
+    docker save -o "$images_backup_dir/$tar_filename" "$image"
 done
 
-echo "All Docker images saved to $save_dir"
+echo "All Docker images saved to $images_backup_dir"
+
+# 初始化元数据文件
+echo "[]" > "$metadata_file"
+
+# 备份所有挂载卷
+container_ids=$(docker ps -q)
+for container_id in $container_ids; do
+  mounts=$(docker inspect --format '{{json .Mounts}}' "$container_id")
+  if [ "$mounts" != "[]" ]; then
+    echo "$mounts" | jq -r '.[] | .Source' | while read -r host_dir; do
+      if [ -d "$host_dir" ]; then
+        tarball_name=$(basename "$host_dir")
+        tarball_path="$volumes_backup_dir/${tarball_name}_$(date +%F_%T).tar.gz"
+        echo "Backing up volume: $host_dir -> $tarball_path"
+        tar -czf "$tarball_path" -C "$host_dir" .
+        
+        # 记录元数据
+        jq --arg src "$host_dir" --arg tarball "$tarball_path" '. += [{"source": $src, "tarball": $tarball}]' "$metadata_file" > tmp.$$.json && mv tmp.$$.json "$metadata_file"
+      else
+        echo "Warning: Host directory $host_dir does not exist or is not a directory."
+      fi
+    done
+  fi
+done
+
+echo "All Docker volumes saved to $volumes_backup_dir"
+
+# 打包整个备份目录
+tar -czf "$final_backup_file" -C "$backup_dir" .
+
+echo "Backup completed and saved to $final_backup_file"
