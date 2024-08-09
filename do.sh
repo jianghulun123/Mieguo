@@ -3,6 +3,28 @@
 # 备份所有Docker镜像和挂载卷，并打包成一个压缩文件
 #
 
+# 检测 jq 是否已安装，如果未安装则自动安装
+install_jq() {
+  if ! command -v jq &> /dev/null; then
+    echo "jq 未安装，正在自动安装..."
+    if [ -x "$(command -v apt-get)" ]; then
+      sudo apt-get update
+      sudo apt-get install -y jq
+    elif [ -x "$(command -v yum)" ]; then
+      sudo yum install -y epel-release
+      sudo yum install -y jq
+    elif [ -x "$(command -v dnf)" ]; then
+      sudo dnf install -y jq
+    else
+      echo "无法检测到包管理器，请手动安装 jq。"
+      exit 1
+    fi
+  fi
+}
+
+# 调用函数安装 jq
+install_jq
+
 # 定义备份目录
 backup_dir="/root/dcc"
 volumes_backup_dir="$backup_dir/volumes"
