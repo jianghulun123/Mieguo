@@ -2,6 +2,28 @@
 
 # 从压缩文件恢复Docker镜像和挂载卷
 
+# 检测 jq 是否已安装，如果未安装则自动安装
+install_jq() {
+  if ! command -v jq &> /dev/null; then
+    echo "jq 未安装，正在自动安装..."
+    if [ -x "$(command -v apt-get)" ]; then
+      sudo apt-get update
+      sudo apt-get install -y jq
+    elif [ -x "$(command -v yum)" ]; then
+      sudo yum install -y epel-release
+      sudo yum install -y jq
+    elif [ -x "$(command -v dnf)" ]; then
+      sudo dnf install -y jq
+    else
+      echo "无法检测到包管理器，请手动安装 jq。"
+      exit 1
+    fi
+  fi
+}
+
+# 调用函数安装 jq
+install_jq
+
 # 提示用户输入压缩文件路径
 read -p "Enter the path to the backup tar.gz file: " backup_file
 
